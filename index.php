@@ -195,15 +195,41 @@
 	  <!--This is the section for the php implementation code from the database. Includes database connection and helloworld -->
 	  <div>
 		  	<?php
-				$username = "geofit";
-				$password = "charizard";
-				$hostname = "localhost"; 
+  				// Get Variables
+          $dbname = $_GET["geofit"];
+          $dbusername = $_GET["geofit"];
+          $dbpass = $_GET["charizard"];
+          $dbhost = $_GET["localhost"];
 
-				//connection to the database
-				$dbhandle = mysql_connect($hostname, $username, $password) 
-				  or die("Unable to connect to MySQL");
-				echo "Connected to MySQL<br>";
-			?>
+
+          $connection = mysql_connect("$dbhost", "$dbusername", "$dbpass");
+          if (!$connection) {
+              die('Could not connect: ' . mysql_error());
+          } else {
+              echo "Connected";
+
+              $dbcheck = mysql_select_db("$dbname");
+              if (!$dbcheck) {
+                  echo mysql_error();
+              } else {
+                  echo "<p>Successfully connected to the database '" . $database . "'</p>\n";
+          // Check tables
+                  $sql = "SHOW TABLES FROM `$database`";
+                  $result = mysql_query($sql);
+                  if (mysql_num_rows($result) > 0) {
+                    echo "<p>Available tables:</p>\n";
+                    echo "<pre>\n";
+                    while ($row = mysql_fetch_row($result)) {
+                      echo "{$row[0]}\n";
+                    }
+                    echo "</pre>\n";
+                  } else {
+                    echo "<p>The database '" . $database . "' contains no tables.</p>\n";
+                    echo mysql_error();
+                  }
+              }
+          }
+        ?>
       </div>
   
   </div>
