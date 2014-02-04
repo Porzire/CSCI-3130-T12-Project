@@ -190,26 +190,30 @@
                   </a>
               </div>
           </div>
-	  </div>
-	  
-	  <!--This is the section for the php implementation code from the database. Includes database connection and helloworld -->
-	  <div>
-		  	<?php
-  				// Get Variables
-          $dbname = $_GET["geofit"];
-          $dbusername = $_GET["geofit"];
-          $dbpass = $_GET["charizard"];
-          $dbhost = $_GET["localhost"];
+    </div>
+    
+    <!--This is the section for the php implementation code from the database. Includes database connection and helloworld -->
+    <div>
+        <?php
+          // Get Variables
+         $dbname = "geofit";
+         $database = "geofit";
+         $dbusername = "geofit";
+         $dbpass = "charizard";
+         $dbhost = "localhost";
 
-
-          $connection = mysql_connect("$dbhost", "$dbusername", "$dbpass");
+       //    $connection = mysql_connect("$dbhost", "$dbusername", "$dbpass");
+         
+          $connection = mysql_connect("localhost", "geofit", "charizard");
           if (!$connection) {
               die('Could not connect: ' . mysql_error());
           } else {
               echo "Connected";
 
-              $dbcheck = mysql_select_db("$dbname");
-              if (!$dbcheck) {
+            //  $dbcheck = mysql_select_db("$dbname");
+             
+              $dbcheck = mysql_select_db("geofit");
+            if (!$dbcheck) {
                   echo mysql_error();
               } else {
                   echo "<p>Successfully connected to the database '" . $database . "'</p>\n";
@@ -236,10 +240,10 @@
 </body>
 =======
     <head>
-    	<title>Software Engineering Project - Group 12</title>
+      <title>Software Engineering Project - Group 12</title>
     </head>
     <body>
-    	INDEX
+      INDEX
     </body>
 >>>>>>> 32678f1215ac6648d70070f1f157b4c19adf3e7f
 </html>
