@@ -1,3 +1,12 @@
+/**
+ * Add the content to the given tag.
+ *
+ * @method setAndDisplayText
+ */
+function setAndDisplayText(tag, text) {
+    $(tag).html(text).fadeOut(0).fadeIn(200);
+}
+
 $(document).ready(function(){
 
     $('#login #login_Btn').click(function(){
@@ -5,13 +14,33 @@ $(document).ready(function(){
         var pwd = $('#pwd_TI').val();
         $(this).attr('href', '#login');
         if (usr === '') {
-            addAndDisplayText('#login #error_Text p', 'The user name cannot be empty.');
+            setAndDisplayText('#login #error_Text p',
+                    'The user name cannot be empty.');
         } else if (pwd === '') {
-            addAndDisplayText('#login #error_Text p', 'The password cannot be empty.');
+            setAndDisplayText('#login #error_Text p',
+                    'The password cannot be empty.');
         } else {
-            $(this).attr('href', '#main');
-            $('#login #usrname_TI').val('');
-            $('#login #pwd_TI').val('');
+            $.ajax({
+                type: 'POST',
+                url: 'mySQL.php',
+                data: {
+                    func: 'login',
+                    username: usr,
+                    password: pwd
+                },
+                dataType: 'text',
+                success: function(responce) {
+                    if (responce === 'success') {
+                        document.location.hash = 'main';
+                        $('#login #usrname_TI').val('');
+                        $('#login #pwd_TI').val('');
+                        setAndDisplayText('#login #error_Text p', '');
+                    } else {
+                        setAndDisplayText('#login #error_Text p',
+                                'Username or password incorrect.');
+                    }
+                }
+            });
         }
     });
 
@@ -21,22 +50,40 @@ $(document).ready(function(){
         var pwd2 = $('#register #pwd2_TI').val();
         $(this).attr('href', '#register');
         if (usr === '') {
-            addAndDisplayText('#register #error_Text p', 'The user name cannot be empty.');
+            setAndDisplayText('#register #error_Text p',
+                    'The user name cannot be empty.');
         } else if (pwd1 === '') {
-            addAndDisplayText('#register #error_Text p', 'The password cannot be empty.');
+            setAndDisplayText('#register #error_Text p',
+                    'The password cannot be empty.');
         } else if (pwd2 === '') {
-            addAndDisplayText('#register #error_Text p', 'The password comfirm cannot be empty.');
+            setAndDisplayText('#register #error_Text p',
+                    'The password comfirm cannot be empty.');
         } else if (pwd2 !== pwd1) {
-            addAndDisplayText('#register #error_Text p', 'The passwords are not same.');
+            setAndDisplayText('#register #error_Text p',
+                    'The passwords are not same.');
         } else {
-            $(this).attr('href', '#main');
-            $('#register #usrname_TI').val('');
-            $('#register #pwd1_TI').val('');
-            $('#register #pwd2_TI').val('');
+            $.ajax({
+                type: 'POST',
+                url: 'mySQL.php',
+                data: {
+                    func: 'register',
+                    username: usr,
+                    password: pwd
+                },
+                dataType: 'text',
+                success: function(responce) {
+                    if (responce === 'success') {
+                        document.location.hash = 'main';
+                        $('#register #usrname_TI').val('');
+                        $('#register #pwd1_TI').val('');
+                        $('#register #pwd2_TI').val('');
+                        setAndDisplayText('#login #error_Text p', '');
+                    } else {
+                        setAndDisplayText('#login #error_Text p',
+                                'Can not register with given username.');
+                    }
+                }
+            });
         }
     });
 });
-
-function addAndDisplayText(tag, text) {
-    $(tag).html(text).fadeOut(0).fadeIn(200);
-}
