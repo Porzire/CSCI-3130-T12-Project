@@ -68,7 +68,7 @@ $(document).ready(function(){
                 data: {
                     func: 'register',
                     username: usr,
-                    password: pwd
+                    password: pwd1
                 },
                 dataType: 'text',
                 success: function(responce) {
