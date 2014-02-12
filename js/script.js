@@ -77,9 +77,9 @@ $(document).ready(function(){
                         $('#register #usrname_TI').val('');
                         $('#register #pwd1_TI').val('');
                         $('#register #pwd2_TI').val('');
-                        setAndDisplayText('#login #error_Text p', '');
+                        setAndDisplayText('#register #error_Text p', '');
                     } else {
-                        setAndDisplayText('#login #error_Text p',
+                        setAndDisplayText('#register #error_Text p',
                                 'Can not register with given username.');
                     }
                 }
