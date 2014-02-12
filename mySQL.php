@@ -41,11 +41,24 @@
      * @param String $password The password.
      *
      * @return boolean True if the username and password have been successfully
-     *                 inserted into the loin table.
+     *                 inserted into the login table.
      */
     function register($username, $password) {
         return mysql_query(
                 'INSERT INTO login VALUES (\''.$username.'\', \''.$password.'\')');
+    }
+
+    /**
+     * Try to remove the account with given username.
+     *
+     * @param String $username The user name.
+     *
+     * @return boolean True if the user record have been successfully removed
+     *                 from the login table.
+     */
+    function remove($username) {
+        return mysql_query(
+                'DELETE FROM login WHERE username=\''.$username.'\'');
     }
 
     $ajaxResponce = Array(
@@ -60,7 +73,7 @@
         case 'register': 
             echo $ajaxResponce[register($_POST['username'], $_POST['password'])];
             break;
-        case 'test':
-            echo 'test pass';
+        case 'remove':
+            echo $ajaxResponce[remove($_POST['username'])];
     }
 ?>
