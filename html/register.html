@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Register | GeoFit</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <link href="css/codiqa.ext.min.css" rel="stylesheet">
+  <link href="css/jquery.mobile-1.3.1.min.css" rel="stylesheet">
+
+  <script src="js/jquery-1.9.1.min.js"></script>
+  <script src="js/jquery.mobile-1.3.1.min.js"></script>
+  <script src="js/codiqa.ext.min.js"></script>
+  <script src="https://projects.cs.dal.ca/geofit/js/script.js"></script>
+</head>
+<body>
+  <div data-role="page" data-control-title="Register" id="register">
+      <div data-role="content" style="padding: 45px">
+          <div style=" text-align:center" data-controltype="image">
+              <img style="width: 100px; height: 100px" src="img/100.png"/>
+          </div>
+          <div data-controltype="textblock">
+              <p>
+                  <br/>
+              </p>
+              <p>
+                  <br/>
+              </p>
+          </div>
+          <div id="error_Text" data-controltype="textblock">
+              <p>
+                  <b>
+                      <br/>
+                  </b>
+              </p>
+          </div>
+          <div data-role="fieldcontain" data-controltype="textinput">
+              <input name="" id="usrname_TI" placeholder="username" value="" type="text" data-mini="true"/>
+          </div>
+          <div data-role="fieldcontain" data-controltype="textinput">
+              <input name="" id="pwd1_TI" placeholder="password" value="" type="password" data-mini="true"/>
+              <div data-role="fieldcontain" data-controltype="textinput">
+                  <input name="" id="pwd2_TI" placeholder="confirm password" value="" type="password" data-mini="true"/>
+              </div>
+          </div>
+          <a id="reg_Btn" data-role="button" data-theme="c" href="main.html">
+              Register
+          </a>
+      </div>
+  </div>
+</body>
+</html>
