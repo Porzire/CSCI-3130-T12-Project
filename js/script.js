@@ -22,7 +22,7 @@ $(document).ready(function(){
         } else {
             $.ajax({
                 type: 'POST',
-                url: 'mySQL.php',
+                url: 'php/mySQL.php',
                 data: {
                     func: 'login',
                     username: usr,
@@ -64,7 +64,7 @@ $(document).ready(function(){
         } else {
             $.ajax({
                 type: 'POST',
-                url: 'mySQL.php',
+                url: 'php/mySQL.php',
                 data: {
                     func: 'register',
                     username: usr,
