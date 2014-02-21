@@ -110,6 +110,27 @@ function remove($username) {
 }
 
 /*
+* Try to return the histroy of all entries in the added food section.
+*
+*/
+function returnHistory(){
+    $sql = "SELECT * FROM geofit.item";
+    $result = mysql_query($sql);
+    $string = '';
+    if (mysql_num_rows($result) > 0) {
+        $string .= "<table id=\"table\"><tr><td>User</td><td>item name</td><td>calories consumed</td><td>date consumed</td><td>date added</td></tr></p><p>";
+        while ($row = mysql_fetch_row($result)) {
+            $string .= "<tr><td>{$row[0]}</td><td>{$row[1]}</td><td>{$row[2]}</td><td>{$row[3]}</td><td>{$row[4]}</td></tr></p><p>";
+            }
+        $string .= "</table></p><p>";
+    } else {
+        $string .= "<p>The database '" . $database . "' contains no tables.</p><p>";
+        echo mysql_error();
+            }
+    return $string;
+}
+
+/*
  * The connection attempt with database.
  *
  * @var boolean
@@ -132,6 +153,9 @@ switch ($_POST['func']) {
         break;
     case 'remove':
         echo $ajaxResponce[remove($_POST['username'])];
+        break;
+    case 'returnHistory':
+        echo returnHistory();
 }
 
 ?>

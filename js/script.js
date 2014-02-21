@@ -9,6 +9,18 @@ function setAndDisplayText(tag, text) {
 
 $(document).ready(function(){
 
+	$.ajax({
+            type: 'POST',
+            url: 'php/mySQL.php',
+            data: {
+                func: 'returnHistory'
+            },
+            dataType: 'text',
+            success: function(responce) {
+            	$('#food-history-content').html(responce);
+            }
+    });
+
     $('#login #login_Btn').click(function(){
         var usr = $('#usrname_TI').val();
         var pwd = $('#pwd_TI').val();
