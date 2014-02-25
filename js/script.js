@@ -9,6 +9,8 @@ function setAndDisplayText(tag, text) {
 
 $(document).ready(function(){
 
+    $('#food-history-content').html('Hello</p><p>world');
+
     $('#login #login_Btn').click(function(){
         var usr = $('#usrname_TI').val();
         var pwd = $('#pwd_TI').val();
@@ -81,6 +83,44 @@ $(document).ready(function(){
                     } else {
                         setAndDisplayText('#register #error_Text p',
                                 'Can not register with given username.');
+                    }
+                }
+            });
+        }
+    });
+
+    $('#add #item_sub_Btn').click(function(){
+        var usr = 'Jie';
+        var item = $('#add #itemname_TI').val();
+        var cal = $('#add #itemCal_TI').val();
+        var time = $('#add #time_DI').val();
+        if (usr === '') {
+            alert('The username should not be empty.');
+        } else if (item === '') {
+            alert('The itemname should not be empty.');
+        } else if (cal === '') {
+            alert('The calorie should not be empty.');
+        } else if (time === '') {
+            alert('The time should be selected.');
+        } else {
+            $.ajax({
+                type: 'POST',
+                url: 'php/mySQL.php',
+                data: {
+                    func: 'addItem',
+                    username: usr,
+                    itemname: item,
+                    calorie:  cal,
+                    date:     time
+                },
+                dataType: 'text',
+                success: function(responce) {
+                    if (responce === 'success') {
+                        alert('Item added');
+                    } else {
+                        alert(usr + ' ' + item + ' ' + cal + ' ' + time + '\n' +
+                                (typeof usr) + ' ' + (typeof item) + ' ' + (typeof cal) + ' ' + (typeof time) + '\n' +
+                                'Item not added');
                     }
                 }
             });

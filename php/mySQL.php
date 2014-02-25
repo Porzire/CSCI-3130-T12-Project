@@ -110,6 +110,22 @@ function remove($username) {
 }
 
 /*
+ * Try to add food record.
+ *
+ * @param String $username The user name.
+ * @param String $foodname The food name.
+ * @param String $calories The number of calories contained in the food.
+ * @param String $date     The eating date.
+ *
+ * @return boolean True if the food record have been successfully added
+ *                 to the item table.
+ */
+function addFood($username, $foodname, $calories, $date) {
+    return mysql_query(
+            'INSERT INTO item VALUES (\''.$username.'\', \''.$foodname.'\', \''.$calories.'\', \''.$date.'\', NOW())');
+}
+
+/*
  * The connection attempt with database.
  *
  * @var boolean
@@ -125,13 +141,20 @@ $ajaxResponce = Array(
  */
 switch ($_POST['func']) {
     case 'login': 
-        echo $ajaxResponce[login($_POST['username'], $_POST['password'])];
+        echo $ajaxResponce[
+                login($_POST['username'], $_POST['password'])];
         break;
     case 'register': 
-        echo $ajaxResponce[register($_POST['username'], $_POST['password'])];
+        echo $ajaxResponce[
+                register($_POST['username'], $_POST['password'])];
         break;
     case 'remove':
-        echo $ajaxResponce[remove($_POST['username'])];
+        echo $ajaxResponce[
+                remove($_POST['username'])];
+        break;
+    case 'remove':
+        echo $ajaxResponce[
+                addFood($_POST['username'], $_POST['foodname'], $_POST['calories'], $_POST['date'])];
 }
 
 ?>
