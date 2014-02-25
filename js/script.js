@@ -1,4 +1,4 @@
-/**
+/*
  * Add the content to the given tag.
  *
  * @method setAndDisplayText
@@ -107,21 +107,14 @@ $(document).ready(function(){
                 type: 'POST',
                 url: 'php/mySQL.php',
                 data: {
-                    func: 'addItem',
+                    func: 'addFood',
                     username: usr,
-                    itemname: item,
-                    calorie:  cal,
+                    foodname: item,
+                    calories: cal,
                     date:     time
                 },
                 dataType: 'text',
                 success: function(responce) {
-                    if (responce === 'success') {
-                        alert('Item added');
-                    } else {
-                        alert(usr + ' ' + item + ' ' + cal + ' ' + time + '\n' +
-                                (typeof usr) + ' ' + (typeof item) + ' ' + (typeof cal) + ' ' + (typeof time) + '\n' +
-                                'Item not added');
-                    }
                 }
             });
         }

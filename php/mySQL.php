@@ -152,7 +152,7 @@ switch ($_POST['func']) {
         echo $ajaxResponce[
                 remove($_POST['username'])];
         break;
-    case 'remove':
+    case 'addFood':
         echo $ajaxResponce[
                 addFood($_POST['username'], $_POST['foodname'], $_POST['calories'], $_POST['date'])];
 }
