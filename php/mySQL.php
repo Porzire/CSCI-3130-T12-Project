@@ -118,7 +118,7 @@ function returnHistory(){
     $result = mysql_query($sql);
     $string = '';
     if (mysql_num_rows($result) > 0) {
-        $string .= "<table id=\"table\"><tr><td>User</td><td>item name</td><td>calories consumed</td><td>date consumed</td><td>date added</td></tr></p><p>";
+        $string .= "<div class=\"CSSTableGenerator\"><table ><tr><td>User</td><td>Item Name</td><td>Calories Consumed</td><td>Date Consumed</td><td>Date Added</td></tr></p><p>";
         while ($row = mysql_fetch_row($result)) {
             $string .= "<tr><td>{$row[0]}</td><td>{$row[1]}</td><td>{$row[2]}</td><td>{$row[3]}</td><td>{$row[4]}</td></tr></p><p>";
             }

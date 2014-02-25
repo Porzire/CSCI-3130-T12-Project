@@ -9,7 +9,8 @@
 
     <link href="css/codiqa.ext.min.css" rel="stylesheet">
     <link href="css/jquery.mobile-1.3.1.min.css" rel="stylesheet">
-
+	<link href="css/style.css" rel="stylesheet">
+	
     <script src="js/jquery-1.9.1.min.js"></script>
     <script src="js/jquery.mobile-1.3.1.min.js"></script>
     <script src="js/codiqa.ext.min.js"></script>
