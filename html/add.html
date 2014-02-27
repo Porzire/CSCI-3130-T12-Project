@@ -25,7 +25,7 @@
                   </a>
               </li>
               <li data-theme="a">
-                  <a id="sign_out_Btn" href="index.html" data-transition="slide">
+                  <a href="index.html" data-transition="slide">
                       sign out
                   </a>
               </li>
@@ -53,7 +53,8 @@
           </h3>
       </div>
       <div data-role="content">
-          <div data-role="fieldcontain" data-controltype="toggleswitch">
+          <!--
+          <div id="food_sport_switch" data-role="fieldcontain" data-controltype="toggleswitch">
               <select name="toggleswitch1" id="toggleswitch1" data-theme="" data-role="slider">
                   <option value="off">
                       Food
@@ -63,13 +64,29 @@
                   </option>
               </select>
           </div>
+          -->
+          <div id="food_sport_R" data-role="fieldcontain" data-controltype="radiobuttons">
+              <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+                  <input id="radio1" name="" value="food_R" type="radio"/>
+                  <label for="radio1">
+                      Food
+                  </label>
+                  <input id="radio2" name="" value="sport_R" type="radio"/>
+                  <label for="radio2">
+                      Sport
+                  </label>
+              </fieldset>
+          </div>
           <div data-role="fieldcontain" data-controltype="textinput">
-              <input name="" id="textinput7" placeholder="Name" value="" type="text" data-mini="true"/>
+              <input name="" id="itemname_TI" placeholder="Name" value="" type="text" data-mini="true"/>
+          </div>
+          <div data-role="fieldcontain" data-controltype="textinput">
+              <input name="" id="itemCal_TI" placeholder="Calories" value="" type="text" data-mini="true"/>
           </div>
           <div data-role="fieldcontain" data-controltype="dateinput">
-              <input name="" id="dateinput1" placeholder="Time" value="" type="date" data-mini="true"/>
+              <input name="" id="time_DI" placeholder="Time" value="" type="date" data-mini="true"/>
           </div>
-          <input type="submit" value="Submit"/>
+          <input id="item_sub_Btn" type="submit" value="Submit"/>
       </div>
       <div data-role="tabbar" data-iconpos="top" data-theme="c">
           <ul>
