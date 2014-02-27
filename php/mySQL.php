@@ -113,7 +113,7 @@ function remove($username) {
 * Try to return the histroy of all entries in the added food section.
 *
 */
-function returnHistory(){
+function returnFoodHistory(){
     $sql = "SELECT * FROM geofit.item";
     $result = mysql_query($sql);
     $string = '';
@@ -154,8 +154,8 @@ switch ($_POST['func']) {
     case 'remove':
         echo $ajaxResponce[remove($_POST['username'])];
         break;
-    case 'returnHistory':
-        echo returnHistory();
+    case 'returnFoodHistory':
+        echo returnFoodHistory();
 }
 
 ?>

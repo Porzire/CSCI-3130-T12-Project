@@ -13,7 +13,7 @@ $(document).ready(function(){
             type: 'POST',
             url: 'php/mySQL.php',
             data: {
-                func: 'returnHistory'
+                func: 'returnFoodHistory'
             },
             dataType: 'text',
             success: function(responce) {
