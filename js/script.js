@@ -9,6 +9,30 @@ function setAndDisplayText(tag, text) {
 
 $(document).ready(function(){
 
+        $.ajax({
+            type: 'POST',
+            url: 'php/mySQL.php',
+            data: {
+                func: 'returnFoodHistory'
+            },
+            dataType: 'text',
+            success: function(responce) {
+                $('#food-history-content').html(responce);
+            }
+    });
+
+        $.ajax({
+            type: 'POST',
+            url: 'php/mySQL.php',
+            data: {
+                func: 'returnSportHistory'
+            },
+            dataType: 'text',
+            success: function(responce) {
+                $('#sport-history-content').html(responce);
+            }
+    });
+
     var user = NaN;
     var itemType = '';
 
