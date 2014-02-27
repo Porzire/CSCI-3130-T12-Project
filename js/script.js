@@ -9,6 +9,7 @@ function setAndDisplayText(tag, text) {
 
 $(document).ready(function(){
 
+<<<<<<< HEAD
     var user = NaN;
     var itemType = '';
 
@@ -23,6 +24,9 @@ $(document).ready(function(){
             itemType = $(this).children().children().html().replace(/\s+/g, '');
         });
     });
+=======
+    $('#food-history-content').html('Hello</p><p>world');
+>>>>>>> feature/add-function
 
     $('#login #login_Btn').click(function(){
         var usr = $('#usrname_TI').val();
@@ -104,11 +108,20 @@ $(document).ready(function(){
     });
 
     $('#add #item_sub_Btn').click(function(){
+<<<<<<< HEAD
         var item = $('#add #itemname_TI').val();
         var cal = $('#add #itemCal_TI').val();
         var time = $('#add #time_DI').val();
         if (itemType === '') {
             alert('The item type was not selected.' + itemType);
+=======
+        var usr = 'Jie';
+        var item = $('#add #itemname_TI').val();
+        var cal = $('#add #itemCal_TI').val();
+        var time = $('#add #time_DI').val();
+        if (usr === '') {
+            alert('The username should not be empty.');
+>>>>>>> feature/add-function
         } else if (item === '') {
             alert('The itemname should not be empty.');
         } else if (cal === '') {
@@ -120,15 +133,23 @@ $(document).ready(function(){
                 type: 'POST',
                 url: 'php/mySQL.php',
                 data: {
+<<<<<<< HEAD
                     func: 'add' + itemType,
                     username: user,
+=======
+                    func: 'addFood',
+                    username: usr,
+>>>>>>> feature/add-function
                     foodname: item,
                     calories: cal,
                     date:     time
                 },
                 dataType: 'text',
                 success: function(responce) {
+<<<<<<< HEAD
                     alert('Item added!');
+=======
+>>>>>>> feature/add-function
                 }
             });
         }
