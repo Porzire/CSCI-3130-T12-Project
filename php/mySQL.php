@@ -110,41 +110,26 @@ function remove($username) {
 }
 
 /*
-* Try to return the histroy of all entries in the added food section.
-*
-*/
-function returnFoodHistory(){
-    $sql = "SELECT * FROM geofit.item";
-    $result = mysql_query($sql);
-    $string = '';
-    if (mysql_num_rows($result) > 0) {
-        $string .= "<div class=\"CSSTableGenerator\"><table ><tr><td>User</td><td>Item Name</td><td>Calories Consumed</td><td>Date Consumed</td><td>Date Added</td></tr></p><p>";
-        while ($row = mysql_fetch_row($result)) {
-            $string .= "<tr><td>{$row[1]}</td><td>{$row[2]}</td><td>{$row[3]}</td><td>{$row[4]}</td><td>{$row[5]}</td></tr></p><p>";
-            }
-        $string .= "</table></p><p>";
-    } else {
-        $string .= "<p>The database '" . $database . "' contains no tables.</p><p>";
-        echo mysql_error();
-            }
-    return $string;
+ * Try to add food record.
+ *
+ * @param String $username The user name.
+ * @param String $foodname The food name.
+ * @param String $calories The number of calories contained in the food.
+ * @param String $date     The eating date.
+ *
+ * @return boolean True if the food record have been successfully added
+ *                 to the item table.
+ */
+function addFood($username, $foodname, $calories, $date) {
+    return mysql_query(
+            'INSERT INTO item (`username`, `item_name`, `cal_consumed`, `date_consumed`, `date_added`)'.
+            ' VALUES (\''.$username.'\', \''.$foodname.'\', \''.$calories.'\', \''.$date.'\', NOW())');
 }
 
-function returnSportHistory(){
-    $sql = "SELECT * FROM geofit.activity";
-    $result = mysql_query($sql);
-    $string = '';
-    if (mysql_num_rows($result) > 0) {
-        $string .= "<div class=\"CSSTableGenerator\"><table ><tr><td>User</td><td>Activity Name</td><td>Calories Burned</td><td>Date Burned</td><td>Date Added</td></tr></p><p>";
-        while ($row = mysql_fetch_row($result)) {
-            $string .= "<tr><td>{$row[1]}</td><td>{$row[2]}</td><td>{$row[3]}</td><td>{$row[4]}</td><td>{$row[5]}</td></tr></p><p>";
-            }
-        $string .= "</table></p><p>";
-    } else {
-        $string .= "<p>The database '" . $database . "' contains no tables.</p><p>";
-        echo mysql_error();
-            }
-    return $string;
+function addSport($username, $foodname, $calories, $date) {
+    return mysql_query(
+            'INSERT INTO activity (`username`, `activity_name`, `cal_burned`, `date_burned`, `date_added`)'.
+            ' VALUES (\''.$username.'\', \''.$foodname.'\', \''.$calories.'\', \''.$date.'\', NOW())');
 }
 
 /*
@@ -163,18 +148,23 @@ $ajaxResponce = Array(
  */
 switch ($_POST['func']) {
     case 'login': 
-        echo $ajaxResponce[login($_POST['username'], $_POST['password'])];
+        echo $ajaxResponce[
+                login($_POST['username'], $_POST['password'])];
         break;
     case 'register': 
-        echo $ajaxResponce[register($_POST['username'], $_POST['password'])];
+        echo $ajaxResponce[
+                register($_POST['username'], $_POST['password'])];
         break;
     case 'remove':
-        echo $ajaxResponce[remove($_POST['username'])];
+        echo $ajaxResponce[
+                remove($_POST['username'])];
         break;
-    case 'returnFoodHistory':
-        echo returnFoodHistory();
-    case 'returnSportHistory':
-        echo returnSportHistory();
+    case 'addFood':
+        echo $ajaxResponce[
+                addFood($_POST['username'], $_POST['foodname'], $_POST['calories'], $_POST['date'])];
+    case 'addSport':
+        echo $ajaxResponce[
+                addSport($_POST['username'], $_POST['foodname'], $_POST['calories'], $_POST['date'])];
 }
 
 ?>
