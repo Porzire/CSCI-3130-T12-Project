@@ -122,7 +122,6 @@ function remove($username) {
  */
 function addFood($username, $foodname, $calories, $date) {
     return mysql_query(
-<<<<<<< HEAD
             'INSERT INTO item (`username`, `item_name`, `cal_consumed`, `date_consumed`, `date_added`)'.
             ' VALUES (\''.$username.'\', \''.$foodname.'\', \''.$calories.'\', \''.$date.'\', NOW())');
 }
@@ -131,9 +130,6 @@ function addSport($username, $foodname, $calories, $date) {
     return mysql_query(
             'INSERT INTO activity (`username`, `activity_name`, `cal_burned`, `date_burned`, `date_added`)'.
             ' VALUES (\''.$username.'\', \''.$foodname.'\', \''.$calories.'\', \''.$date.'\', NOW())');
-=======
-            'INSERT INTO item VALUES (\''.$username.'\', \''.$foodname.'\', \''.$calories.'\', \''.$date.'\', NOW())');
->>>>>>> feature/add-function
 }
 
 /*
@@ -166,12 +162,9 @@ switch ($_POST['func']) {
     case 'addFood':
         echo $ajaxResponce[
                 addFood($_POST['username'], $_POST['foodname'], $_POST['calories'], $_POST['date'])];
-<<<<<<< HEAD
     case 'addSport':
         echo $ajaxResponce[
                 addSport($_POST['username'], $_POST['foodname'], $_POST['calories'], $_POST['date'])];
-=======
->>>>>>> feature/add-function
 }
 
 ?>
