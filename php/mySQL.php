@@ -156,6 +156,8 @@ switch ($_POST['func']) {
         break;
     case 'returnFoodHistory':
         echo returnFoodHistory();
+    case 'returnSportHistory':
+        echo returnSportHistory();
 }
 
 ?>
