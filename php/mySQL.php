@@ -120,7 +120,24 @@ function returnFoodHistory(){
     if (mysql_num_rows($result) > 0) {
         $string .= "<div class=\"CSSTableGenerator\"><table ><tr><td>User</td><td>Item Name</td><td>Calories Consumed</td><td>Date Consumed</td><td>Date Added</td></tr></p><p>";
         while ($row = mysql_fetch_row($result)) {
-            $string .= "<tr><td>{$row[0]}</td><td>{$row[1]}</td><td>{$row[2]}</td><td>{$row[3]}</td><td>{$row[4]}</td></tr></p><p>";
+            $string .= "<tr><td>{$row[1]}</td><td>{$row[2]}</td><td>{$row[3]}</td><td>{$row[4]}</td><td>{$row[5]}</td></tr></p><p>";
+            }
+        $string .= "</table></p><p>";
+    } else {
+        $string .= "<p>The database '" . $database . "' contains no tables.</p><p>";
+        echo mysql_error();
+            }
+    return $string;
+}
+
+function returnSportHistory(){
+    $sql = "SELECT * FROM geofit.activity";
+    $result = mysql_query($sql);
+    $string = '';
+    if (mysql_num_rows($result) > 0) {
+        $string .= "<div class=\"CSSTableGenerator\"><table ><tr><td>User</td><td>Activity Name</td><td>Calories Burned</td><td>Date Burned</td><td>Date Added</td></tr></p><p>";
+        while ($row = mysql_fetch_row($result)) {
+            $string .= "<tr><td>{$row[1]}</td><td>{$row[2]}</td><td>{$row[3]}</td><td>{$row[4]}</td><td>{$row[5]}</td></tr></p><p>";
             }
         $string .= "</table></p><p>";
     } else {
