@@ -109,27 +109,30 @@ function remove($username) {
             'DELETE FROM login WHERE username=\''.$username.'\'');
 }
 
-   /* Try to return the histroy of all entries in the added food section.
-   *
-   */
-   function returnFoodHistory(){
-       $sql = "SELECT * FROM geofit.item";
-       $result = mysql_query($sql);
-       $string = '';
-       if (mysql_num_rows($result) > 0) {
-           $string .= "<div class=\"CSSTableGenerator\"><table ><tr><td>User</td><td>Item Name</td><td>Calories Consumed</td><td>Date Consumed</td><td>Date Added</td></tr></p><p>";
-           while ($row = mysql_fetch_row($result)) {
-               $string .= "<tr><td>{$row[1]}</td><td>{$row[2]}</td><td>{$row[3]}</td><td>{$row[4]}</td><td>{$row[5]}</td></tr></p><p>";
-            }
-           $string .= "</table></p><p>";
-        } else {
-           $string .= "<p>The database '" . $database . "' contains no tables.</p><p>";
-           echo mysql_error();
+/**
+ * Try to return the histroy of all entries in the added food section.
+ */
+function returnFoodHistory(){
+   $sql = "SELECT * FROM geofit.item";
+   $result = mysql_query($sql);
+   $string = '';
+   if (mysql_num_rows($result) > 0) {
+       $string .= "<div class=\"CSSTableGenerator\"><table ><tr><td>User</td><td>Item Name</td><td>Calories Consumed</td><td>Date Consumed</td><td>Date Added</td></tr></p><p>";
+       while ($row = mysql_fetch_row($result)) {
+           $string .= "<tr><td>{$row[1]}</td><td>{$row[2]}</td><td>{$row[3]}</td><td>{$row[4]}</td><td>{$row[5]}</td></tr></p><p>";
         }
-        return $string;
+       $string .= "</table></p><p>";
+    } else {
+       $string .= "<p>The database '" . $database . "' contains no tables.</p><p>";
+       echo mysql_error();
     }
+    return $string;
+}
 
-    function returnSportHistory(){
+/**
+ * Try to return the histroy of all entries in the added sport section.
+ */
+function returnSportHistory(){
     $sql = "SELECT * FROM geofit.activity";
     $result = mysql_query($sql);
     $string = '';
@@ -145,6 +148,7 @@ function remove($username) {
     }
     return $string;
 }
+
 /*
  * Try to add food record.
  *
@@ -162,10 +166,21 @@ function addFood($username, $foodname, $calories, $date) {
             ' VALUES (\''.$username.'\', \''.$foodname.'\', \''.$calories.'\', \''.$date.'\', NOW())');
 }
 
-function addSport($username, $foodname, $calories, $date) {
+/*
+ * Try to add sport record.
+ *
+ * @param String $username  The user name.
+ * @param String $sportname The sport name.
+ * @param String $calories  The number of calories contained in the food.
+ * @param String $date      The eating date.
+ *
+ * @return boolean True if the food record have been successfully added
+ *                 to the item table.
+ */
+function addSport($username, $sportname, $calories, $date) {
     return mysql_query(
             'INSERT INTO activity (`username`, `activity_name`, `cal_burned`, `date_burned`, `date_added`)'.
-            ' VALUES (\''.$username.'\', \''.$foodname.'\', \''.$calories.'\', \''.$date.'\', NOW())');
+            ' VALUES (\''.$username.'\', \''.$sportname.'\', \''.$calories.'\', \''.$date.'\', NOW())');
 }
 
 /*
