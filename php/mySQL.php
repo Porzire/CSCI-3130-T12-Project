@@ -110,7 +110,7 @@ function remove($username) {
 }
 
 /**
- * Try to return the histroy of all entries in the added food section.
+ * Try to return the history of all entries in the added food section.
  */
 function returnFoodHistory(){
    $sql = "SELECT * FROM geofit.item";
@@ -130,7 +130,7 @@ function returnFoodHistory(){
 }
 
 /**
- * Try to return the histroy of all entries in the added sport section.
+ * Try to return the history of all entries in the added sport section.
  */
 function returnSportHistory(){
     $sql = "SELECT * FROM geofit.activity";
