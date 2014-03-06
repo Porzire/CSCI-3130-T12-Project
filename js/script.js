@@ -9,6 +9,11 @@ function setAndDisplayText(tag, text) {
 
 $(document).ready(function(){
 
+/*  
+ *  Framework for returnFoodHistory and returnSportHistory
+ *  returnFoodHistory is linked to food-history-content
+ *  returnSportHistory is linked to sport-history-content
+ */ 
         $.ajax({
             type: 'POST',
             url: 'php/mySQL.php',
