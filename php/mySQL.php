@@ -106,7 +106,7 @@ function register($username, $password) {
  */
 function remove($username) {
     return mysql_query(
-            'DELETE FROM login WHERE username=\''.$username.'\'');
+        'DELETE FROM login WHERE username=\''.$username.'\'');
 }
 
 /**
@@ -124,7 +124,7 @@ function returnFoodHistory(){
         }
        $string .= "</table></p><p>";
     } else {
-       $string .= "<p>The database '" . $database . "' contains no tables.</p><p>";
+       $string .= "<p>The database '" . $database . "' contains no table entries for this user.</p><p>";
        echo mysql_error();
     }
     return $string;
@@ -145,7 +145,7 @@ function returnSportHistory(){
         }
         $string .= "</table></p><p>";
     } else {
-        $string .= "<p>The database '" . $database . "' contains no tables.</p><p>";
+        $string .= "<p>The database '" . $database . "' contains no table entries for this user.</p><p>";
         echo mysql_error();
     }
     return $string;
