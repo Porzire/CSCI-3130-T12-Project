@@ -19,7 +19,7 @@ $(document).ready(function(){
             url: 'php/mySQL.php',
             data: {
                 func: 'returnFoodHistory',
-		username: user
+		        username: user
             },
             dataType: 'text',
             success: function(responce) {
@@ -32,7 +32,7 @@ $(document).ready(function(){
             url: 'php/mySQL.php',
             data: {
                 func: 'returnSportHistory',
-		username: user
+		        username: user
             },
             dataType: 'text',
             success: function(responce) {
