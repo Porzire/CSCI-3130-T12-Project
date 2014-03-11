@@ -114,7 +114,7 @@ function remove($username) {
  * NOTE FOR LATER: Be sure that if there are no entries check and return a display message and that the table querey is correct
  */
 function returnFoodHistory($username){
-   $sql = 'SELECT * FROM geofit.item where username=\''.$username.'\'';
+   $sql = 'SELECT * FROM geofit.item WHERE username=\''.$username.'\'';
    $result = mysql_query($sql);
    $database = "item";
    $string = '';
@@ -223,10 +223,10 @@ switch ($_POST['func']) {
                 addSport($_POST['username'], $_POST['foodname'], $_POST['calories'], $_POST['date'])];
         break;
     case 'returnFoodHistory':
-        echo returnFoodHistory($username);
+        echo returnFoodHistory($_POST['username']);
         break;
     case 'returnSportHistory':
-        echo returnSportHistory($username);
+        echo returnSportHistory($_POST['username']);
         break;
 }
 
