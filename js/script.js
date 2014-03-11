@@ -1,3 +1,6 @@
+var user = NaN;
+var itemType = '';
+
 /*
  * Add the content to the given tag.
  *
@@ -7,6 +10,34 @@ function setAndDisplayText(tag, text) {
     $(tag).html(text).fadeOut(0).fadeIn(200);
 }
 
+function getHistory() {
+    $.ajax({
+        type: 'POST',
+        url: 'php/mySQL.php',
+        data: {
+            func: 'returnFoodHistory',
+            username: user
+        },
+        dataType: 'text',
+        success: function(responce) {
+            $('#food-history-content').html(responce);
+        }
+    });
+    $.ajax({
+        type: 'POST',
+        url: 'php/mySQL.php',
+        data: {
+            func: 'returnSportHistory',
+            username: user
+        },
+        dataType: 'text',
+        success: function(responce) {
+            $('#sport-history-content').html(responce);
+        }
+    });
+
+}
+
 $(document).ready(function(){
 
 /*  
@@ -14,34 +45,6 @@ $(document).ready(function(){
  *  returnFoodHistory is linked to food-history-content
  *  returnSportHistory is linked to sport-history-content
  */ 
-        $.ajax({
-            type: 'POST',
-            url: 'php/mySQL.php',
-            data: {
-                func: 'returnFoodHistory',
-		username: user
-            },
-            dataType: 'text',
-            success: function(responce) {
-                $('#food-history-content').html(responce);
-            }
-    });
-
-        $.ajax({
-            type: 'POST',
-            url: 'php/mySQL.php',
-            data: {
-                func: 'returnSportHistory',
-		username: user
-            },
-            dataType: 'text',
-            success: function(responce) {
-                $('#sport-history-content').html(responce);
-            }
-    });
-
-    var user = NaN;
-    var itemType = '';
 
     /*
      * Bind the item type radios on the add page.
@@ -75,6 +78,7 @@ $(document).ready(function(){
                     password: pwd
                 },
                 dataType: 'text',
+                async: false,
                 success: function(responce) {
                     if (responce === 'success') {
                         document.location.hash = 'main';
@@ -88,6 +92,7 @@ $(document).ready(function(){
                     }
                 }
             });
+            getHistory();
         }
     });
 
@@ -112,6 +117,7 @@ $(document).ready(function(){
             $.ajax({
                 type: 'POST',
                 url: 'php/mySQL.php',
+                async: false,
                 data: {
                     func: 'register',
                     username: usr,
@@ -131,6 +137,7 @@ $(document).ready(function(){
                     }
                 }
             });
+            getHistory();
         }
     });
 
@@ -150,6 +157,7 @@ $(document).ready(function(){
             $.ajax({
                 type: 'POST',
                 url: 'php/mySQL.php',
+                async: false,
                 data: {
                     func: 'add' + itemType,
                     username: user,
@@ -162,6 +170,7 @@ $(document).ready(function(){
                     alert('Item added!');
                 }
             });
+            getHistory();
         }
     });
 });
