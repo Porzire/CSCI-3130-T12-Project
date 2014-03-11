@@ -114,7 +114,7 @@ function remove($username) {
  * NOTE FOR LATER: Be sure that if there are no entries check and return a display message and that the table querey is correct
  */
 function returnFoodHistory(){
-   $sql = 'SELECT * FROM geofit.item WHERE username=\''.$username.'\'';
+   $sql = 'SELECT * FROM geofit.item where username=\''.$username.'\'';
    $result = mysql_query($sql);
    $database = "item";
    $string = '';
@@ -136,7 +136,7 @@ function returnFoodHistory(){
  * NOTE FOR LATER: be sure that if there are no entries, it will return a message and that the table querey is correct
  */
 function returnSportHistory(){
-    $sql = 'SELECT * FROM geofit.activity WHERE username=\''.$username.'\'';
+    $sql = 'SELECT * FROM geofit.activity where username=\''.$username.'\'';
     $database = "activity";
     $result = mysql_query($sql);
     $string = '';
