@@ -18,7 +18,8 @@ $(document).ready(function(){
             type: 'POST',
             url: 'php/mySQL.php',
             data: {
-                func: 'returnFoodHistory'
+                func: 'returnFoodHistory',
+		username: user
             },
             dataType: 'text',
             success: function(responce) {
@@ -30,7 +31,8 @@ $(document).ready(function(){
             type: 'POST',
             url: 'php/mySQL.php',
             data: {
-                func: 'returnSportHistory'
+                func: 'returnSportHistory',
+		username: user
             },
             dataType: 'text',
             success: function(responce) {
