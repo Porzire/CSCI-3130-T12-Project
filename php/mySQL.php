@@ -116,6 +116,7 @@ function remove($username) {
 function returnFoodHistory(){
    $sql = 'SELECT * FROM geofit.item WHERE username=\''.$username.'\'';
    $result = mysql_query($sql);
+   $database = "item";
    $string = '';
    if (mysql_num_rows($result) > 0) {
        $string .= "<div class=\"CSSTableGenerator\"><table ><tr><td>User</td><td>Item Name</td><td>Calories Consumed</td><td>Date Consumed</td><td>Date Added</td></tr></p><p>";
@@ -136,6 +137,7 @@ function returnFoodHistory(){
  */
 function returnSportHistory(){
     $sql = 'SELECT * FROM geofit.activity WHERE username=\''.$username.'\'';
+    $database = "activity";
     $result = mysql_query($sql);
     $string = '';
     if (mysql_num_rows($result) > 0) {
