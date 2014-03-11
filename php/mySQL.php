@@ -113,7 +113,7 @@ function remove($username) {
  * Try to return the history of all entries in the added food section.
  * NOTE FOR LATER: Be sure that if there are no entries check and return a display message and that the table querey is correct
  */
-function returnFoodHistory(){
+function returnFoodHistory($username){
    $sql = 'SELECT * FROM geofit.item where username=\''.$username.'\'';
    $result = mysql_query($sql);
    $database = "item";
@@ -135,7 +135,7 @@ function returnFoodHistory(){
  * Try to return the history of all entries in the added sport section.
  * NOTE FOR LATER: be sure that if there are no entries, it will return a message and that the table querey is correct
  */
-function returnSportHistory(){
+function returnSportHistory($username){
     $sql = 'SELECT * FROM geofit.activity where username=\''.$username.'\'';
     $database = "activity";
     $result = mysql_query($sql);
@@ -223,10 +223,10 @@ switch ($_POST['func']) {
                 addSport($_POST['username'], $_POST['foodname'], $_POST['calories'], $_POST['date'])];
         break;
     case 'returnFoodHistory':
-        echo returnFoodHistory();
+        echo returnFoodHistory($username);
         break;
     case 'returnSportHistory':
-        echo returnSportHistory();
+        echo returnSportHistory($username);
         break;
 }
 
