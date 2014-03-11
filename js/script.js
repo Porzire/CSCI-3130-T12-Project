@@ -40,12 +40,6 @@ function getHistory() {
 
 $(document).ready(function(){
 
-/*  
- *  Framework for returnFoodHistory and returnSportHistory
- *  returnFoodHistory is linked to food-history-content
- *  returnSportHistory is linked to sport-history-content
- */ 
-
     /*
      * Bind the item type radios on the add page.
      */
