@@ -136,9 +136,9 @@ function returnFoodHistory(){
  * NOTE FOR LATER: be sure that if there are no entries, it will return a message and that the table querey is correct
  */
 function returnSportHistory(){
-    // $sql = 'SELECT * FROM geofit.activity where username=\''.$username.'\'';
+    $sql = 'SELECT * FROM geofit.activity where username=\''.$username.'\'';
     $database = "activity";
-    $result = mysql_query('SELECT * FROM geofit.activity where username=\''.$username.'\'');
+    $result = mysql_query($sql);
     $string = '';
     if (mysql_num_rows($result) > 0) {
         $string .= "<div class=\"CSSTableGenerator\"><table ><tr><td>User</td><td>Activity Name</td><td>Calories Burned</td><td>Date Burned</td><td>Date Added</td></tr></p><p>";
