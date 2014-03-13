@@ -109,11 +109,28 @@ function removeUser($username) {
         'DELETE FROM login WHERE username=\''.$username.'\'');
 }
 
+/*
+ * Try get mySQL data with SELECT query.
+ *
+ * @param String $username The user name.
+ * @param String $username The table name.
+ *
+ * @return object The mySQL data retrieved by given query.
+ */
 function getRecord($username, $table) {
     $sql = 'SELECT * FROM '.$table.' WHERE username=\''.$username.'\'';
     return mysql_query($sql);
 }
 
+/*
+ * Return string representation of the records.
+ * This function is used for testing.
+ *
+ * @param String $username The user name.
+ * @param String $username The table name.
+ *
+ * @return String Return string representation of the records.
+ */
 function returnRecords($username, $table) {
     $result = getRecord($username, $database);
     $string = '';
@@ -201,6 +218,14 @@ function addSport($username, $sportname, $calories, $date) {
             ' VALUES (\''.$username.'\', \''.$sportname.'\', \''.$calories.'\', \''.$date.'\', NOW())');
 }
 
+/*
+ * Try to get the last record on the table.
+ * This function is used for testing.
+ *
+ * @param String $username The table name.
+ *
+ * @return String Return string representation of the records.
+ */
 function getLastRecord($table) {
     $sql = 'SELECT * FROM '.$table.' WHERE id = (SELECT max(id) FROM '.$table.')';
     $result = mysql_fetch_row(mysql_query($sql));
@@ -211,6 +236,14 @@ function getLastRecord($table) {
     echo $display;
 }
 
+/*
+ * Try to remove the last record from the table.
+ * This function is used for testing.
+ *
+ * @param String $username The table name.
+ *
+ * @return String Return string representation of the records.
+ */
 function removeLastRecord($table) {
     return mysql_query(
         'DELETE FROM '.$table.' WHERE id = (SELECT maxid FROM (SELECT max(id) AS maxid FROM '.$table.') AS tmp)'
@@ -229,7 +262,7 @@ $ajaxResponce = Array(
     );
 
 /*
- * This statement is used for responce ajax request.
+ * This statement is used for responsing ajax request.
  */
 switch ($_POST['func']) {
     case 'login': 
@@ -256,6 +289,10 @@ switch ($_POST['func']) {
         break;
 }
 
+/*
+ * This statement is also used for responsing ajax request, but used for
+ * responce ajax request.
+ */
 switch ($_POST['test']) {
     case 'removeUser':
         echo $ajaxResponce[

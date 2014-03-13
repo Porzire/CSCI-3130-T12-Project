@@ -1,15 +1,29 @@
+/**
+ * Maintain the user name.
+ * @property user
+ * @type String
+ */
 var user = NaN;
+
+/**
+ * Store the item type.
+ * @property itemType
+ * @type String
+ */
 var itemType = '';
 
-/*
+/**
  * Add the content to the given tag.
- *
  * @method setAndDisplayText
  */
 function setAndDisplayText(tag, text) {
     $(tag).html(text).fadeOut(0).fadeIn(200);
 }
 
+/**
+ * Update history onto HTML page.
+ * @method getHistory
+ */
 function getHistory() {
     $.ajax({
         type: 'POST',
@@ -19,6 +33,10 @@ function getHistory() {
             username: user
         },
         dataType: 'text',
+        /**
+         * Update the HTML content if successfully get ajax response.
+         * @event success
+         */
         success: function(responce) {
             $('#food-history-content').html(responce);
         }
@@ -31,6 +49,10 @@ function getHistory() {
             username: user
         },
         dataType: 'text',
+        /**
+         * Update the HTML content if successfully get ajax response.
+         * @event success
+         */
         success: function(responce) {
             $('#sport-history-content').html(responce);
         }
@@ -39,6 +61,12 @@ function getHistory() {
 }
 
 $(document).ready(function(){
+
+/*  
+ *  Framework for returnFoodHistory and returnSportHistory
+ *  returnFoodHistory is linked to food-history-content
+ *  returnSportHistory is linked to sport-history-content
+ */ 
 
     /*
      * Bind the item type radios on the add page.
@@ -73,6 +101,11 @@ $(document).ready(function(){
                 },
                 dataType: 'text',
                 async: false,
+                /**
+                 * Switch to main page and clean the textfields if response is
+                 * success. Otherwise display the error information.
+                 * @event success
+                 */
                 success: function(responce) {
                     if (responce === 'success') {
                         document.location.hash = 'main';
@@ -118,6 +151,11 @@ $(document).ready(function(){
                     password: pwd1
                 },
                 dataType: 'text',
+                /**
+                 * Switch to main page and clean the textfields if response is
+                 * success. Otherwise display the error information.
+                 * @event success
+                 */
                 success: function(responce) {
                     if (responce === 'success') {
                         document.location.hash = 'main';
@@ -160,6 +198,10 @@ $(document).ready(function(){
                     date:     time
                 },
                 dataType: 'text',
+                /**
+                 * Prompt success information if successfully get ajax response.
+                 * @event success
+                 */
                 success: function(responce) {
                     alert('Item added!');
                 }

@@ -1,5 +1,6 @@
 describe('Website', function() {
 
+    // The path to the mySQL.php file.
     var MYSQL_PHP_PATH = 'php/mySQL.php';
 
     describe('page switch by pressing button on', function() {
@@ -564,7 +565,7 @@ describe('Website', function() {
         });
     });
 
-    // Test the add function.
+    // Test the history function.
     describe('history function', function() {
 
         var username = 'TestUser';
@@ -602,10 +603,10 @@ describe('Website', function() {
                 success: function(responce) {
                     record = (responce.split(' '));
                     // Expect the retrieved record information is the same as given.
-                    //expect(record[1]).toEqual(username);
-                    //expect(record[2]).toEqual(sportname);
-                    //expect(record[3]).toEqual(calories);
-                    //expect(record[4]).toEqual(date);
+                    expect(record[1]).toEqual(username);
+                    expect(record[2]).toEqual(sportname);
+                    expect(record[3]).toEqual(calories);
+                    expect(record[4]).toEqual(date);
                     alert(responce);
                 }
             });
