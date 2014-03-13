@@ -506,8 +506,8 @@ describe('Website', function() {
         });
     });
 
-    // Test the add function.
-    describe('history function', function() {
+    // Test the history function.
+    describe('food history function', function() {
 
         var username = 'TestUser';
         var calories = '100';
@@ -515,6 +515,7 @@ describe('Website', function() {
 
         it('should return food records', function() {
             var foodname = 'TestFood';
+            // Add one record with given information.
             $.ajax({
                 type: 'POST',
                 url: MYSQL_PHP_PATH,
@@ -541,7 +542,7 @@ describe('Website', function() {
                 dataType: 'text',
                 async: false,
                 success: function(responce) {
-                    record = (responce.split(' '));
+                    record = responce.split(' ');
                     // Expect the retrieved record information is the same as given.
                     expect(record[1]).toEqual(username);
                     expect(record[2]).toEqual(foodname);
@@ -566,7 +567,7 @@ describe('Website', function() {
     });
 
     // Test the history function.
-    describe('history function', function() {
+    describe('sport history function', function() {
 
         var username = 'TestUser';
         var calories = '100';
@@ -575,6 +576,7 @@ describe('Website', function() {
 
         it('should return sport records', function() {
             var sportname = 'TestSport';
+            // Add one record with given information.
             $.ajax({
                 type: 'POST',
                 url: MYSQL_PHP_PATH,
@@ -607,7 +609,6 @@ describe('Website', function() {
                     expect(record[2]).toEqual(sportname);
                     expect(record[3]).toEqual(calories);
                     expect(record[4]).toEqual(date);
-                    alert(responce);
                 }
             });
             // Remove the record created during test.

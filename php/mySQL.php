@@ -132,12 +132,13 @@ function getRecord($username, $table) {
  * @return String Return string representation of the records.
  */
 function returnRecords($username, $table) {
-    $result = getRecord($username, $database);
+    $result = getRecord($username, $table);
     $string = '';
     while ($row = mysql_fetch_row($result)) {
         foreach ($row as $val) {
-            $string .= ' ' + $val;
+            $string .= $val . ' ';
         }
+        $string .= "\n";
     }
     return $string;
 }
@@ -302,7 +303,7 @@ switch ($_POST['test']) {
         echo $ajaxResponce[
                 removeLastRecord($_POST['table'])];
         break;
-    case 'getRecord': 
+    case 'returnRecords': 
         echo returnRecords($_POST['username'], $_POST['table']);
         break;
     case 'getLastRecord': 
