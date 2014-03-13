@@ -135,7 +135,7 @@ function returnRecords($username, $table) {
     $result = getRecord($username, $database);
     $string = '';
     while ($row = mysql_fetch_row($result)) {
-        for ($row as $val) {
+        foreach ($row as $val) {
             $string .= ' ' + $val;
         }
     }
