@@ -30,13 +30,16 @@ module.exports = function(grunt) {
           outdir: 'docs/'
         }
       }
-    }
-  });
+    },
+    clean: ['docs', 'js/script.min.js']
+ });
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jasmine');
   grunt.loadNpmTasks('grunt-contrib-yuidoc');
+  grunt.loadNpmTasks('grunt-contrib-clean');
 
   grunt.registerTask('default', ['test', 'uglify', 'yuidoc']);
   grunt.registerTask('test', ['jasmine']);
+  //'clean': build-in function in 'grunt-contrib-clean'.
 };
