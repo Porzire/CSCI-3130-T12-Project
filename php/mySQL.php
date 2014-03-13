@@ -104,9 +104,25 @@ function register($username, $password) {
  * @return boolean True if the user record have been successfully removed
  *                 from the login table.
  */
-function remove($username) {
+function removeUser($username) {
     return mysql_query(
         'DELETE FROM login WHERE username=\''.$username.'\'');
+}
+
+function getRecord($username, $table) {
+    $sql = 'SELECT * FROM '.$table.' WHERE username=\''.$username.'\'';
+    return mysql_query($sql);
+}
+
+function returnRecords($username, $table) {
+    $result = getRecord($username, $database);
+    $string = '';
+    while ($row = mysql_fetch_row($result)) {
+        for ($row as $val) {
+            $string .= ' ' + $val;
+        }
+    }
+    return $string;
 }
 
 /**
@@ -114,9 +130,8 @@ function remove($username) {
  * NOTE FOR LATER: Be sure that if there are no entries check and return a display message and that the table querey is correct
  */
 function returnFoodHistory($username){
-   $sql = 'SELECT * FROM geofit.item WHERE username=\''.$username.'\'';
-   $result = mysql_query($sql);
    $database = "item";
+   $result = getRecord($username, $database);
    $string = '';
    if (mysql_num_rows($result) > 0) {
        $string .= "<div class=\"CSSTableGenerator\"><table ><tr><td>User</td><td>Item Name</td><td>Calories Consumed</td><td>Date Consumed</td><td>Date Added</td></tr></p><p>";
@@ -136,9 +151,8 @@ function returnFoodHistory($username){
  * NOTE FOR LATER: be sure that if there are no entries, it will return a message and that the table querey is correct
  */
 function returnSportHistory($username){
-    $sql = 'SELECT * FROM geofit.activity where username=\''.$username.'\'';
     $database = "activity";
-    $result = mysql_query($sql);
+    $result = getRecord($username, $database);
     $string = '';
     if (mysql_num_rows($result) > 0) {
         $string .= "<div class=\"CSSTableGenerator\"><table ><tr><td>User</td><td>Activity Name</td><td>Calories Burned</td><td>Date Burned</td><td>Date Added</td></tr></p><p>";
@@ -187,6 +201,22 @@ function addSport($username, $sportname, $calories, $date) {
             ' VALUES (\''.$username.'\', \''.$sportname.'\', \''.$calories.'\', \''.$date.'\', NOW())');
 }
 
+function getLastRecord($table) {
+    $sql = 'SELECT * FROM '.$table.' WHERE id = (SELECT max(id) FROM '.$table.')';
+    $result = mysql_fetch_row(mysql_query($sql));
+    $display = '';
+    foreach ($result as $val) {
+        $display .= $val . ' ';
+    }
+    echo $display;
+}
+
+function removeLastRecord($table) {
+    return mysql_query(
+        'DELETE FROM '.$table.' WHERE id = (SELECT maxid FROM (SELECT max(id) AS maxid FROM '.$table.') AS tmp)'
+    );
+}
+
 /*
  * The connection attempt with database.
  *
@@ -210,10 +240,6 @@ switch ($_POST['func']) {
         echo $ajaxResponce[
                 register($_POST['username'], $_POST['password'])];
         break;
-    case 'remove':
-        echo $ajaxResponce[
-                remove($_POST['username'])];
-        break;
     case 'addFood':
         echo $ajaxResponce[
                 addFood($_POST['username'], $_POST['foodname'], $_POST['calories'], $_POST['date'])];
@@ -230,4 +256,20 @@ switch ($_POST['func']) {
         break;
 }
 
+switch ($_POST['test']) {
+    case 'removeUser':
+        echo $ajaxResponce[
+                removeUser($_POST['username'])];
+        break;
+    case 'removeLastRecord':
+        echo $ajaxResponce[
+                removeLastRecord($_POST['table'])];
+        break;
+    case 'getRecord': 
+        echo returnRecords($_POST['username'], $_POST['table']);
+        break;
+    case 'getLastRecord': 
+        echo getLastRecord($_POST['table']);
+        break;
+}
 ?>

@@ -1,5 +1,7 @@
 describe('Website', function() {
 
+    var MYSQL_PHP_PATH = 'php/mySQL.php';
+
     describe('page switch by pressing button on', function() {
 
         describe('"Welcome" page', function() {
@@ -256,16 +258,13 @@ describe('Website', function() {
             $('<div id="fixture"></div>').appendTo('body');
             $.ajax({
                 type: 'POST',
-                url: 'mySQL.php',
+                url: MYSQL_PHP_PATH,
                 data: {
                     func: 'register',
                     username: username,
                     password: password 
                 },
-                dataType: 'text',
-                error: function(responce) {
-                    this.fail();
-                }
+                dataType: 'text'
             });
         });
 
@@ -275,15 +274,12 @@ describe('Website', function() {
             $('#fixture').remove();
             $.ajax({
                 type: 'POST',
-                url: 'mySQL.php',
+                url: MYSQL_PHP_PATH,
                 data: {
                     func: 'remove',
                     username: username,
                 },
-                dataType: 'text',
-                error: function(responce) {
-                    this.fail();
-                }
+                dataType: 'text'
             });
         });
 
@@ -333,15 +329,12 @@ describe('Website', function() {
             $('<div id="fixture"></div>').appendTo('body');
             $.ajax({
                 type: 'POST',
-                url: 'mySQL.php',
+                url: MYSQL_PHP_PATH,
                 data: {
                     func: 'remove',
                     username: username,
                 },
-                dataType: 'text',
-                error: function(responce) {
-                    this.fail();
-                }
+                dataType: 'text'
             });
         });
 
@@ -350,15 +343,12 @@ describe('Website', function() {
             $('#fixture').remove();
             $.ajax({
                 type: 'POST',
-                url: 'mySQL.php',
+                url: MYSQL_PHP_PATH,
                 data: {
                     func: 'remove',
                     username: username,
                 },
-                dataType: 'text',
-                error: function(responce) {
-                    this.fail();
-                }
+                dataType: 'text'
             });
         });
 
@@ -389,4 +379,250 @@ describe('Website', function() {
             });
         });
     });
+
+    // Test the add function.
+    describe('add function', function() {
+
+        var username = 'TestUser';
+        var calories = '100';
+        var date = '2014-03-12';
+
+        // Retrieve last id before test.
+        beforeEach(function() {
+            $.ajax({
+                type: 'POST',
+                url: MYSQL_PHP_PATH,
+                data: {
+                    test: 'getLastRecord',
+                    table: 'item'
+                },
+                dataType: 'text',
+                async: false,
+                success: function(responce) {
+                }
+            });
+        });
+
+        it('should accept the add food request', function() {
+            var foodname = 'TestFood';
+            $.ajax({
+                type: 'POST',
+                url: MYSQL_PHP_PATH,
+                data: {
+                    func: 'addFood',
+                    username: username,
+                    foodname: foodname,
+                    calories: calories,
+                    date: date
+                },
+                dataType: 'text',
+                async: false,
+                success: function(responce) {
+                }
+            });
+            $.ajax({
+                type: 'POST',
+                url: MYSQL_PHP_PATH,
+                data: {
+                    test: 'getLastRecord',
+                    table: 'item'
+                },
+                dataType: 'text',
+                async: false,
+                success: function(responce) {
+                    record = (responce.split(' '));
+                    // Expect the retrieved record information is the same as given.
+                    expect(record[1]).toEqual(username);
+                    expect(record[2]).toEqual(foodname);
+                    expect(record[3]).toEqual(calories);
+                    expect(record[4]).toEqual(date);
+                }
+            });
+            // Remove the record created during test.
+            $.ajax({
+                type: 'POST',
+                url: MYSQL_PHP_PATH,
+                data: {
+                    test: 'removeLastRecord',
+                    table: 'item'
+                },
+                dataType: 'text',
+                async: false,
+                success: function(responce) {
+                }
+            });
+        });
+
+
+        it('should accept the add sport request', function() {
+            var sportname = 'TestSport';
+            $.ajax({
+                type: 'POST',
+                url: MYSQL_PHP_PATH,
+                data: {
+                    func: 'addSport',
+                    username: username,
+                    foodname: sportname,
+                    calories: calories,
+                    date: date
+                },
+                dataType: 'text',
+                async: false,
+                success: function(responce) {
+                }
+            });
+            $.ajax({
+                type: 'POST',
+                url: MYSQL_PHP_PATH,
+                data: {
+                    test: 'getLastRecord',
+                    table: 'activity'
+                },
+                dataType: 'text',
+                async: false,
+                success: function(responce) {
+                    record = (responce.split(' '));
+                    // Expect the retrieved record information is the same as given.
+                    expect(record[1]).toEqual(username);
+                    expect(record[2]).toEqual(sportname);
+                    expect(record[3]).toEqual(calories);
+                    expect(record[4]).toEqual(date);
+                }
+            });
+            // Remove the record created during test.
+            $.ajax({
+                type: 'POST',
+                url: MYSQL_PHP_PATH,
+                data: {
+                    test: 'removeLastRecord',
+                    table: 'activity'
+                },
+                dataType: 'text',
+                async: false,
+                success: function(responce) {
+                }
+            });
+        });
+    });
+
+    // Test the add function.
+    describe('history function', function() {
+
+        var username = 'TestUser';
+        var calories = '100';
+        var date = '2014-03-12';
+
+        it('should return food records', function() {
+            var foodname = 'TestFood';
+            $.ajax({
+                type: 'POST',
+                url: MYSQL_PHP_PATH,
+                data: {
+                    func: 'addFood',
+                    username: username,
+                    foodname: foodname,
+                    calories: calories,
+                    date: date
+                },
+                dataType: 'text',
+                async: false,
+                success: function(responce) {
+                }
+            });
+            $.ajax({
+                type: 'POST',
+                url: MYSQL_PHP_PATH,
+                data: {
+                    test: 'returnRecords',
+                    username: 'TestUser',
+                    table: 'item'
+                },
+                dataType: 'text',
+                async: false,
+                success: function(responce) {
+                    record = (responce.split(' '));
+                    // Expect the retrieved record information is the same as given.
+                    expect(record[1]).toEqual(username);
+                    expect(record[2]).toEqual(foodname);
+                    expect(record[3]).toEqual(calories);
+                    expect(record[4]).toEqual(date);
+                }
+            });
+            // Remove the record created during test.
+            $.ajax({
+                type: 'POST',
+                url: MYSQL_PHP_PATH,
+                data: {
+                    test: 'removeLastRecord',
+                    table: 'item'
+                },
+                dataType: 'text',
+                async: false,
+                success: function(responce) {
+                }
+            });
+        });
+    });
+
+    // Test the add function.
+    describe('history function', function() {
+
+        var username = 'TestUser';
+        var calories = '100';
+        var date = '2014-03-12';
+
+
+        it('should return sport records', function() {
+            var sportname = 'TestSport';
+            $.ajax({
+                type: 'POST',
+                url: MYSQL_PHP_PATH,
+                data: {
+                    func: 'addSport',
+                    username: username,
+                    foodname: sportname,
+                    calories: calories,
+                    date: date
+                },
+                dataType: 'text',
+                async: false,
+                success: function(responce) {
+                }
+            });
+            $.ajax({
+                type: 'POST',
+                url: MYSQL_PHP_PATH,
+                data: {
+                    test: 'returnRecords',
+                    username: 'TestUser',
+                    table: 'activity'
+                },
+                dataType: 'text',
+                async: false,
+                success: function(responce) {
+                    record = (responce.split(' '));
+                    // Expect the retrieved record information is the same as given.
+                    //expect(record[1]).toEqual(username);
+                    //expect(record[2]).toEqual(sportname);
+                    //expect(record[3]).toEqual(calories);
+                    //expect(record[4]).toEqual(date);
+                    alert(responce);
+                }
+            });
+            // Remove the record created during test.
+            $.ajax({
+                type: 'POST',
+                url: MYSQL_PHP_PATH,
+                data: {
+                    test: 'removeLastRecord',
+                    table: 'activity'
+                },
+                dataType: 'text',
+                async: false,
+                success: function(responce) {
+                }
+            });
+        });
+    });
+
 });
