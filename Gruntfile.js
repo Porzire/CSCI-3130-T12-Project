@@ -18,12 +18,28 @@ module.exports = function(grunt) {
         vendor: 'js/jquery-1.9.1.min.js',
         specs: 'js/test/scriptSpec.js'
       }
-    }
-  });
+    },
+    yuidoc: {
+      mytarget: {
+        name: '<%= pkg.name %>',
+        description: '<%= pkg.description %>',
+        version: '<%= pkg.version %>',
+        url: '<%= pkg.homepage %>',
+        options: {
+          paths: 'js/',
+          outdir: 'docs/'
+        }
+      }
+    },
+    clean: ['docs', 'js/script.min.js']
+ });
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jasmine');
+  grunt.loadNpmTasks('grunt-contrib-yuidoc');
+  grunt.loadNpmTasks('grunt-contrib-clean');
 
-  grunt.registerTask('default', ['test', 'uglify']);
+  grunt.registerTask('default', ['test', 'uglify', 'yuidoc']);
   grunt.registerTask('test', ['jasmine']);
+  //'clean': build-in function in 'grunt-contrib-clean'.
 };

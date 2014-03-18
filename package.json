@@ -1,0 +1,15 @@
+{
+  "name": "GeoFit",
+  "version": "0.1.0",
+  "homepage": "https://projects.cs.dal.ca/geofit",
+  "discription": "Calorie manager",
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib-jshint": "~0.6.3",
+    "grunt-contrib-jasmine": "~0.6.1",
+    "grunt-contrib-uglify": "~0.2.2",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-yuidoc": "~0.5.0",
+    "grunt-contrib-clean": "~0.5.0"
+  }
+}
