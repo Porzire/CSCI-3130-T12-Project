@@ -144,7 +144,7 @@ function returnRecords($username, $table) {
 }
 
 function returnAdvice($username) {
-    $string = "Here is some advice";
+    $string = "You should eat less";
     return $string;
 }
 
