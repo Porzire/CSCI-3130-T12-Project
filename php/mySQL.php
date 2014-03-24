@@ -144,10 +144,10 @@ function returnRecords($username, $table) {
 }
 
 function returnAdvice($username) {
-    $string = "You should eat less";
+    alert("REACHED INSIDE OF FUNCTION");
+    $string = "TEST";
     return $string;
 }
-
 /**
  * Try to return the history of all entries in the added food section.
  * NOTE FOR LATER: Be sure that if there are no entries check and return a display message and that the table querey is correct

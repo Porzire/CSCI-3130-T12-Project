@@ -138,6 +138,7 @@ $(document).ready(function(){
                 }
             });
             getHistory();
+            getAdvice();
         }
     });
 
@@ -188,6 +189,7 @@ $(document).ready(function(){
                 }
             });
             getHistory();
+            getAdvice();
         }
     });
 
@@ -225,6 +227,7 @@ $(document).ready(function(){
                 }
             });
             getHistory();
+            getAdvice();
         }
     });
 });
