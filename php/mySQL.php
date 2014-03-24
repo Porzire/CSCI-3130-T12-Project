@@ -143,6 +143,11 @@ function returnRecords($username, $table) {
     return $string;
 }
 
+function returnAdvice($username) {
+    $string = "Here is some advice";
+    return $string;
+}
+
 /**
  * Try to return the history of all entries in the added food section.
  * NOTE FOR LATER: Be sure that if there are no entries check and return a display message and that the table querey is correct
@@ -287,6 +292,9 @@ switch ($_POST['func']) {
         break;
     case 'returnSportHistory':
         echo returnSportHistory($_POST['username']);
+        break;
+    case 'returnAdvice':
+        echo returnAdvice($_POST['username']);
         break;
 }
 

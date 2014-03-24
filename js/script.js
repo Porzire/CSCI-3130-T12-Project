@@ -24,6 +24,24 @@ function setAndDisplayText(tag, text) {
  * Update history onto HTML page.
  * @method getHistory
  */
+
+// getAdvice function, currently based on getHistory for testing purposes
+function getAdvice() {
+    $.ajax({
+        type: 'POST',
+        url: 'php/mySQL.php',
+        data: {
+            func: 'returnAdvice',
+            username: user
+        },
+        dataType: 'text',
+
+        success: function(responce) {
+            $('#advice-content').html(responce);
+        }
+    });
+}
+
 function getHistory() {
     $.ajax({
         type: 'POST',
