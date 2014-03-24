@@ -31,13 +31,13 @@ function getAdvice() {
         type: 'POST',
         url: 'php/mySQL.php',
         data: {
-            func: 'returnAdvice',
+            func: 'returnFoodHistory',
             username: user
         },
         dataType: 'text',
 
         success: function(responce) {
-            $('#advice-content').html(responce);
+            $('#food-history-content').html(responce);
         }
     });
 }
