@@ -144,8 +144,19 @@ function returnRecords($username, $table) {
 }
 
 function returnAdvice($username) {
-    alert("REACHED INSIDE OF FUNCTION");
-    $string = "TEST";
+    $database = "item";
+    $result = getRecord($username, $database);
+    $string = '';
+    if (mysql_num_rows($result) > 0) {
+        $string .= "<div class=\"CSSTableGenerator\"><table ><tr><td>User</td><td>Item Name</td><td>Calories Consumed</td><td>Date Consumed</td><td>Date Added</td></tr></p><p>";
+        while ($row = mysql_fetch_row($result)) {
+            $string .= "<tr><td>{$row[1]}</td><td>{$row[2]}</td><td>{$row[3]}</td><td>{$row[4]}</td><td>{$row[5]}</td></tr></p><p>";
+        }
+        $string .= "</table></p><p>";
+    } else {
+        $string .= "<p>The database '" . $database . "' contains no table entries for this user.</p><p>";
+        echo mysql_error();
+    }
     return $string;
 }
 /**
