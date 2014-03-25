@@ -1,0 +1,10 @@
+pseudo code:
+
+graph($username, $table, $interval)
+	do mysql call for the time interval in the table and username. put in list
+
+	enter the data for time interval and ammounts on x / y axis. Time on x, interval on Y
+
+	convert to the d3 chart style appropriately
+
+	##interval will be default at 7 days for a week
