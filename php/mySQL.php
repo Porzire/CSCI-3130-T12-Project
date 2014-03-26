@@ -214,6 +214,7 @@ function returnAdvice($username) {
  * Try to return the history of all entries in the added food section.
  * NOTE FOR LATER: Be sure that if there are no entries check and return a display message and that the table querey is correct
  */
+ }}
 function returnFoodHistory($username){
    $database = "item";
    $result = getRecord($username, $database);
