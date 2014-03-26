@@ -144,7 +144,8 @@ function returnRecords($username, $table) {
 }
 
 function returnAdvice($username) {
-    //The $string is what we return at the end
+    //The $string is what we return at the end which holds the advice or the errors
+
     $string = '';
 
     //get strings for item and activity for the current day
@@ -158,7 +159,7 @@ function returnAdvice($username) {
     $cal_consumed = 0;
 	if(mysql_fetch_row($resultItem) > 0){
 	    while($row = mysql_fetch_row($resultItem){
-	    	$cal_consumed .= $row[3];
+	    	$cal_consumed += $row[3];
 	    }
 	} else {
 		$string .= "<p>The database '" . $database_item . "' contains no table entries for this user.</p><p>";
@@ -169,7 +170,7 @@ function returnAdvice($username) {
 	$cal_burned = 0;
 	if(mysql_fetch_row($resultActivity) > 0){
 	    while($row = mysql_fetch_row($resultActivity){
-	    	$cal_burned .= $row[3];
+	    	$cal_burned += $row[3];
 	    }
 	} else {
 		$string .= "<p>The database '" . $database_activity . "' contains no table entries for this user.</p><p>";
