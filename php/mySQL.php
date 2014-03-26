@@ -206,7 +206,7 @@ function returnAdvice($username) {
 		$cal_burned_level = 2;
 	}
 	elseif ($cal_burned_level >= 700) {
-		$cal_burned_level = 3
+		$cal_burned_level = 3;
 	}
 
 	//Do a comparison to find out the advice with other id conditions. have it export to a $string
