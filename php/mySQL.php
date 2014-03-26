@@ -144,8 +144,100 @@ function returnRecords($username, $table) {
 }
 
 function returnAdvice($username) {
-    
+    //The $string is what we return at the end
+    $string = '';
 
+    //get strings for item and activity for the current day
+    $database_item = "item";
+    $resultItem = getRecord($username, $database_item);
+
+    $database_activity = "activity";
+    $resultActivity = getRecord($username, $database_activity);
+
+    //Search for number of calories consumed for this day
+    $cal_consumed = 0;
+	if(mysql_fetch_row($resultItem) > 0){
+	    while($row = mysql_fetch_row($resultItem){
+	    	$cal_consumed .= $row[3];
+	    }
+	} else {
+		$string .= "<p>The database '" . $database . "' contains no table entries for this user.</p><p>";
+        echo mysql_error();
+	}
+
+	//Search for number of calories burned for this day
+	$cal_burned = 0;
+	if(mysql_fetch_row($resultActivity) > 0){
+	    while($row = mysql_fetch_row($resultActivity){
+	    	$cal_burned .= $row[3];
+	    }
+	} else {
+		$string .= "<p>The database '" . $database . "' contains no table entries for this user.</p><p>";
+        echo mysql_error();
+	}
+
+	//take the total calories and assign to a level 1, 2, 3, 4
+	$cal_consumed_level = 0;
+	if($cal_consumed <= 2499){
+		$cal_consumed_level = -1;
+	}
+	elseif ($cal_consumed >= 2500 & $cal_consumed <= 2699) {
+		$cal_consumed_level = 0;
+	}
+	elseif ($cal_consumed >= 2700 & $cal_consumed <= 2899) {
+		$cal_consumed_level = 1;
+	}
+	elseif($cal_consumed >= 2900 & $cal_consumed <= 3099){
+		$cal_consumed_level = 2;
+	}
+	elseif ($cal_consumed >= 3100) {
+		$cal_consumed_level = 3;
+	}
+
+	//Do the same for the cal_burned with their numbers
+	$cal_burned_level = 0;
+	if($cal_burned >= 0 & $cal_burned <= 199){
+		$cal_burned_level = 0;
+	}
+	elseif ($cal_burned_level >= 200 & $cal_burned_level <= 399) {
+		$cal_burned_level = 1;
+	}
+	elseif ($cal_burned_level >= 400 & $cal_burned_level <= 699) {
+		$cal_burned_level = 2;
+	}
+	elseif ($cal_burned_level >= 700) {
+		$cal_burned_level = 3
+	}
+
+	//Do a comparison to find out the advice with other id conditions. have it export to a $string
+	$total_level = $cal_burned_level - $cal_consumed_level;
+
+	if ($total_level == -3) {
+		$string = "<p>Warning Severe: You are not exercising enough and are facing a large intake number of calories. Severe weight gain can be a side effect at these levels.</p><p>";
+	}
+	elseif ($total_level == -2) {
+		$string = "<p>Warning Moderate: You are not exercising and facing more than average intake number of calories. Moderate weight gain can be a possible side effect at this level.</p><p>";
+	}
+	elseif ($total_level == -1) {
+		$string = "<p>Warning Mild: You are consuming slightly more calories than average. Mild weight gain can be a side effect at this level.</p><p>";
+	}
+	elseif ($total_level == 0) {
+		$string = "<p>Warning None: You are doing everything perfectly, keep this progress!</p><p>";
+	}
+	elseif ($total_level == 1) {
+		$string = "<p>Warning Mild: You are doing more sports, try to eat a little more to keep a  good balance.</p><p>";
+	}
+	elseif ($total_level == 2) {
+		$string = "<p>Warning Moderate: You are doing more sports than average. To keep a healthy balance it is recommended you consume more calories.</p><p>";
+	}
+	elseif ($total_level == 3) {
+		$string = "<p>Warning Severe: You are doing much more sports activities, eat more to keep up with your current vigorous activity standards.</p><p>";
+	}
+	elseif ($total_level == 4) {
+		$string = "<p>Warning Extreme: You are not eating enough calories based on your current results, you need to consume more calories. Physical distress can be an effect at these levels.</p><p>";
+	}
+
+	return $string;
 }
 	
 function returnFoodHistory($username){
