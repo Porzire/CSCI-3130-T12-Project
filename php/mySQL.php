@@ -145,8 +145,70 @@ function returnRecords($username, $table) {
 
 function returnAdvice($username) {
     
-    $text = "Here is some sample advice";
-    return $text;
+ $string = '';
+    //get strings for item and activity for the current day
+    $database = "item";
+    $resultItem = getRecord($username, $database);
+ 
+    $database = "activity";
+    $resultActivity = getRecord($username, $database);
+ 
+    //Search for number of calories consumed for this day
+    $cal_consumed = 0;
+        if(mysql_fetch_row($resultItem) > 0){
+            while($row = mysql_fetch_row($resultItem){
+                $cal_consumed .= $row[3];
+        } else {
+                $string .= "<p>The database '" . $database . "' contains no table entries for this user.</p><p>";
+        echo mysql_error();
+        }
+ 
+        //Search for number of calories burned for this day
+        $cal_burned = 0;
+        if(mysql_fetch_row($resultActivity) > 0){
+            while($row = mysql_fetch_row($resultActivity){
+                $cal_burned .= $row[3];
+        } else {
+                $string .= "<p>The database '" . $database . "' contains no table entries for this user.</p><p>";
+        echo mysql_error();
+        }
+ 
+        //take the total calories and assign to a level 1, 2, 3, 4
+        $cal_level = -1;
+        if($cal_consumed <= 2499)
+                $cal_level = -1;
+        elseif ($cal_consumed >= 2500 & $cal_consumed <= 2699) {
+                $cal_level = 0;
+        }
+        elseif ($cal_consumed >= 2700 & $cal_consumed <= 2899) {
+                $cal_level = 1;
+        }
+        elseif($cal_consumed >= 2900 & $cal_consumed <= 3099){
+                $cal_level = 2;
+        }
+        elseif ($cal_consumed >= 3100) {
+                $cal_level = 3;
+        }
+ 
+        //Do the same for the cal_burned with their numbers
+ 
+        //Do a comparison to find out the advice with other id conditions. have it export to a $string
+ 
+        //FIX THIS GITHUB THING
+ 
+        return $string;
+ 
+    // if (mysql_num_rows($result) > 0) {
+    //     $string .= "<div class=\"CSSTableGenerator\"><table ><tr><td>User</td><td>Item Name</td><td>Calories Consumed</td><td>Date Consumed</td><td>Date Added</td></tr></p><p>";
+    //     while ($row = mysql_fetch_row($result)) {
+    //         $string .= "<tr><td>{$row[1]}</td><td>{$row[2]}</td><td>{$row[3]}</td><td>{$row[4]}</td><td>{$row[5]}</td></tr></p><p>";
+    //     }
+    //     $string .= "</table></p><p>";
+    // } else {
+    //     $string .= "<p>The database '" . $database . "' contains no table entries for this user.</p><p>";
+    //     echo mysql_error();
+    // }
+    // return $string;
 }
 /**
  * Try to return the history of all entries in the added food section.
