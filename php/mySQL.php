@@ -161,7 +161,7 @@ function returnAdvice($username) {
 	    	$cal_consumed .= $row[3];
 	    }
 	} else {
-		$string .= "<p>The database '" . $database . "' contains no table entries for this user.</p><p>";
+		$string .= "<p>The database '" . $database_item . "' contains no table entries for this user.</p><p>";
         echo mysql_error();
 	}
 
@@ -172,7 +172,7 @@ function returnAdvice($username) {
 	    	$cal_burned .= $row[3];
 	    }
 	} else {
-		$string .= "<p>The database '" . $database . "' contains no table entries for this user.</p><p>";
+		$string .= "<p>The database '" . $database_activity . "' contains no table entries for this user.</p><p>";
         echo mysql_error();
 	}
 
