@@ -268,7 +268,16 @@ function returnAdvice($username) {
 		}
 		elseif ($total_level == 4) {
 			$string = "<p>Warning Extreme: You are not eating enough calories based on your current results, you need to consume more calories. Physical distress can be an effect at these levels.</p><p>";
-		} 
+		}
+		//Do a check to see if there is a major surplus in calories after heavy workout and if there is a major decrease in calories after eating a lot
+		//Major cal's
+		elseif($cal_consumed_level == 3 & $cal_burned_level == 3 & ($cal_consumed_level - $cal_burned_level) > 2699){
+			$string = "<p>Warning Moderate: You are at risk of gaining weight even this this excessive exercise. Try eating less to maintain a balance</p><p>";
+		}
+		//Major Sport
+		elseif($cal_consumed_level == 3 & $cal_burned_level == 3 & ($cal_burned_level - $cal_consumed_level) > 700){
+			$string = "<p>Warning Moderate: You are doing more sports than needed even though you are eating more. Try cutting back on the sports to stay within safe limits</p><p>";
+		}
 	}
 	
 	return $string;
