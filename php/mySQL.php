@@ -160,9 +160,7 @@ function returnAdvice($username) {
 	    while($row = mysql_fetch_row($resultItem)){
 			if ($row[4] == date('Y-m-d')){
 				$cal_consumed += $row[3];
-			}else{
-				$string = "<p>Warning Extreme: No calories consumed today </p><p>";				
-			}			
+			}		
 	    }
 		echo "You consumed " . $cal_consumed . " calories today";
 		echo "<br/>";
@@ -177,8 +175,6 @@ function returnAdvice($username) {
 	    while($row = mysql_fetch_row($resultActivity)){
 			if ($row[4] == date('Y-m-d')){
 	    	$cal_burned += $row[3];
-			}else{
-				$string = "<p>Warning Extreme: No activities for today </p><p>";
 			}
 	    }
 		echo "You burnt " . $cal_burned . " calories today.";
@@ -205,10 +201,13 @@ function returnAdvice($username) {
 	elseif ($cal_consumed >= 3100) {
 		$cal_consumed_level = 3;
 	}
+	elseif ($cal_consumed == 0){
+		$cal_consumed_level = -2;
+	}
 
 	//Do the same for the cal_burned with their numbers
 	$cal_burned_level = 0;
-	if($cal_burned >= 0 & $cal_burned <= 199){
+	if($cal_burned > 0 & $cal_burned <= 199){
 		$cal_burned_level = 0;
 	}
 	elseif ($cal_burned >= 200 & $cal_burned <= 399) {
@@ -220,34 +219,57 @@ function returnAdvice($username) {
 	elseif ($cal_burned >= 700) {
 		$cal_burned_level = 3;
 	}
+	elseif ($cal_burned == 0) {
+		$cal_burned_level = -2;
+	}
+
+	//Do a check if there were null entries detected
+	$no_entries_activity = FALSE;
+	$no_entries_item = FALSE;
+
+	if($cal_burned_level == -2){
+		$no_entries_item = FALSE;
+	}
+	if($cal_consumed_level == -2){
+		$no_entries_item = FALSE;
+	}
+
+	if($no_entries_item){
+		$string .= "<p>You have no entries for your food items. To get accurate results, please enter at least 1 food item.</p><p>";
+	}
+	if($no_entries_activity){
+		$string .= "<p>You have no entries for your activities. To get accurate results, please enter at least 1 activityi</p><p>";
+	}
 
 	//Do a comparison to find out the advice with other id conditions. have it export to a $string
 	$total_level = $cal_burned_level - $cal_consumed_level;
 
-	if ($total_level == -3) {
-		$string = "<p>Warning Severe: You are not exercising enough and are facing a large intake number of calories. Severe weight gain can be a side effect at these levels.</p><p>";
+	if(!$no_entries_activity & !$no_entries_item){
+		if ($total_level == -3) {
+			$string = "<p>Warning Severe: You are not exercising enough and are facing a large intake number of calories. Severe weight gain can be a side effect at these levels.</p><p>";
+		}
+		elseif ($total_level == -2) {
+			$string = "<p>Warning Moderate: You are not exercising and facing more than average intake number of calories. Moderate weight gain can be a possible side effect at this level.</p><p>";
+		}
+		elseif ($total_level == -1) {
+			$string = "<p>Warning Mild: You are consuming slightly more calories than average. Mild weight gain can be a side effect at this level.</p><p>";
+		}
+		elseif ($total_level == 0) {
+			$string = "<p>Warning None: You are doing everything perfectly, keep this progress!</p><p>";
+		}
+		elseif ($total_level == 1) {
+			$string = "<p>Warning Mild: You are doing more sports, try to eat a little more to keep a  good balance.</p><p>";
+		}
+		elseif ($total_level == 2) {
+			$string = "<p>Warning Moderate: You are doing more sports than average. To keep a healthy balance it is recommended you consume more calories.</p><p>";
+		}
+		elseif ($total_level == 3) {
+			$string = "<p>Warning Severe: You are doing much more sports activities, eat more to keep up with your current vigorous activity standards.</p><p>";
+		}
+		elseif ($total_level == 4) {
+			$string = "<p>Warning Extreme: You are not eating enough calories based on your current results, you need to consume more calories. Physical distress can be an effect at these levels.</p><p>";
+		} 
 	}
-	elseif ($total_level == -2) {
-		$string = "<p>Warning Moderate: You are not exercising and facing more than average intake number of calories. Moderate weight gain can be a possible side effect at this level.</p><p>";
-	}
-	elseif ($total_level == -1) {
-		$string = "<p>Warning Mild: You are consuming slightly more calories than average. Mild weight gain can be a side effect at this level.</p><p>";
-	}
-	elseif ($total_level == 0) {
-		$string = "<p>Warning None: You are doing everything perfectly, keep this progress!</p><p>";
-	}
-	elseif ($total_level == 1) {
-		$string = "<p>Warning Mild: You are doing more sports, try to eat a little more to keep a  good balance.</p><p>";
-	}
-	elseif ($total_level == 2) {
-		$string = "<p>Warning Moderate: You are doing more sports than average. To keep a healthy balance it is recommended you consume more calories.</p><p>";
-	}
-	elseif ($total_level == 3) {
-		$string = "<p>Warning Severe: You are doing much more sports activities, eat more to keep up with your current vigorous activity standards.</p><p>";
-	}
-	elseif ($total_level == 4) {
-		$string = "<p>Warning Extreme: You are not eating enough calories based on your current results, you need to consume more calories. Physical distress can be an effect at these levels.</p><p>";
-	} 
 	
 	return $string;
 }
