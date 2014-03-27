@@ -228,7 +228,7 @@ function returnAdvice($username) {
 	$has_entries_item = TRUE;
 
 	if($cal_burned_level == -2){
-		$has_entries_item = FALSE;
+		$has_entries_activity = FALSE;
 	}
 	if($cal_consumed_level == -2){
 		$has_entries_item = FALSE;
