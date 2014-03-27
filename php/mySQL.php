@@ -158,8 +158,14 @@ function returnAdvice($username) {
     $cal_consumed = 0;
 	if(mysql_fetch_row($resultItem) > 0){
 	    while($row = mysql_fetch_row($resultItem)){
-	    	$cal_consumed .= $row[3];
+			if ($row[4] == date('Y-m-d')){
+				$cal_consumed += $row[3];
+			}else{
+				$string = "<p>Warning Extreme: No calories consumed today </p><p>";				
+			}			
 	    }
+		echo $cal_consumed;
+		echo "<br/>";
 	} else {
 		$string .= "<p>The database '" . $database_item . "' contains no table entries for this user.</p><p>";
         echo mysql_error();
@@ -169,8 +175,14 @@ function returnAdvice($username) {
 	$cal_burned = 0;
 	if(mysql_fetch_row($resultActivity) > 0){
 	    while($row = mysql_fetch_row($resultActivity)){
-	    	$cal_burned .= $row[3];
+			if ($row[4] == date('Y-m-d')){
+	    	$cal_burned += $row[3];
+			}else{
+				$string = "<p>Warning Extreme: No activities for today </p><p>";
+			}
 	    }
+		echo $cal_burned;
+		echo "<br/>";
 	} else {
 		$string .= "<p>The database '" . $database_activity . "' contains no table entries for this user.</p><p>";
         echo mysql_error();
@@ -199,13 +211,13 @@ function returnAdvice($username) {
 	if($cal_burned >= 0 & $cal_burned <= 199){
 		$cal_burned_level = 0;
 	}
-	elseif ($cal_burned_level >= 200 & $cal_burned_level <= 399) {
+	elseif ($cal_burned >= 200 & $cal_burned <= 399) {
 		$cal_burned_level = 1;
 	}
-	elseif ($cal_burned_level >= 400 & $cal_burned_level <= 699) {
+	elseif ($cal_burned >= 400 & $cal_burned <= 699) {
 		$cal_burned_level = 2;
 	}
-	elseif ($cal_burned_level >= 700) {
+	elseif ($cal_burned >= 700) {
 		$cal_burned_level = 3;
 	}
 
@@ -236,7 +248,7 @@ function returnAdvice($username) {
 	elseif ($total_level == 4) {
 		$string = "<p>Warning Extreme: You are not eating enough calories based on your current results, you need to consume more calories. Physical distress can be an effect at these levels.</p><p>";
 	} 
-
+	
 	return $string;
 }
 	
