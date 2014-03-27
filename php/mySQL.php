@@ -186,7 +186,7 @@ function returnAdvice($username) {
 
 	//take the total calories and assign to a level 1, 2, 3, 4
 	$cal_consumed_level = 0;
-	if($cal_consumed <= 2499){
+	if($cal_consumed > 0 & $cal_consumed <= 2499){
 		$cal_consumed_level = -1;
 	}
 	elseif ($cal_consumed >= 2500 & $cal_consumed <= 2699) {
@@ -224,27 +224,27 @@ function returnAdvice($username) {
 	}
 
 	//Do a check if there were null entries detected
-	$no_entries_activity = FALSE;
-	$no_entries_item = FALSE;
+	$has_entries_activity = TRUE;
+	$has_entries_item = TRUE;
 
 	if($cal_burned_level == -2){
-		$no_entries_item = FALSE;
+		$has_entries_item = FALSE;
 	}
 	if($cal_consumed_level == -2){
-		$no_entries_item = FALSE;
+		$has_entries_item = FALSE;
 	}
 
-	if($no_entries_item){
+	if(!$has_entries_item){
 		$string .= "<p>You have no entries for your food items. To get accurate results, please enter at least 1 food item.</p><p>";
 	}
-	if($no_entries_activity){
-		$string .= "<p>You have no entries for your activities. To get accurate results, please enter at least 1 activityi</p><p>";
+	if(!$has_entries_activity){
+		$string .= "<p>You have no entries for your activities. To get accurate results, please enter at least 1 activity.</p><p>";
 	}
 
 	//Do a comparison to find out the advice with other id conditions. have it export to a $string
 	$total_level = $cal_burned_level - $cal_consumed_level;
 
-	if(!$no_entries_activity & !$no_entries_item){
+	if($has_entries_activity & $has_entries_item){
 		if ($total_level == -3) {
 			$string = "<p>Warning Severe: You are not exercising enough and are facing a large intake number of calories. Severe weight gain can be a side effect at these levels.</p><p>";
 		}
