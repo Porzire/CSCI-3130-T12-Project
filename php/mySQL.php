@@ -156,7 +156,7 @@ function returnAdvice($username) {
 
     //Search for number of calories consumed for this day
     $cal_consumed = 0;
-	if(mysql_fetch_row($resultItem) > 0){
+	if(mysql_num_rows($resultItem) > 0){
 	    while($row = mysql_fetch_row($resultItem)){
 			if ($row[4] == date('Y-m-d')){
 				$cal_consumed += $row[3];
@@ -173,7 +173,7 @@ function returnAdvice($username) {
 
 	//Search for number of calories burned for this day
 	$cal_burned = 0;
-	if(mysql_fetch_row($resultActivity) > 0){
+	if(mysql_num_rows($resultActivity) > 0){
 	    while($row = mysql_fetch_row($resultActivity)){
 			if ($row[4] == date('Y-m-d')){
 	    	$cal_burned += $row[3];
