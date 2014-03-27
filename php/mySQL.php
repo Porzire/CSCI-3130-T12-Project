@@ -157,7 +157,7 @@ function returnAdvice($username) {
     //Search for number of calories consumed for this day
     $cal_consumed = 0;
 	if(mysql_fetch_row($resultItem) > 0){
-	    while($row = mysql_fetch_row($resultItem){
+	    while($row = mysql_fetch_row($resultItem)){
 	    	$cal_consumed .= $row[3];
 	    }
 	} else {
@@ -168,7 +168,7 @@ function returnAdvice($username) {
 	//Search for number of calories burned for this day
 	$cal_burned = 0;
 	if(mysql_fetch_row($resultActivity) > 0){
-	    while($row = mysql_fetch_row($resultActivity){
+	    while($row = mysql_fetch_row($resultActivity)){
 	    	$cal_burned .= $row[3];
 	    }
 	} else {
@@ -235,7 +235,7 @@ function returnAdvice($username) {
 	}
 	elseif ($total_level == 4) {
 		$string = "<p>Warning Extreme: You are not eating enough calories based on your current results, you need to consume more calories. Physical distress can be an effect at these levels.</p><p>";
-	}
+	} 
 
 	return $string;
 }
