@@ -164,7 +164,7 @@ function returnAdvice($username) {
 				$string = "<p>Warning Extreme: No calories consumed today </p><p>";				
 			}			
 	    }
-		echo $cal_consumed;
+		echo "You consumed " . $cal_consumed . " calories today";
 		echo "<br/>";
 	} else {
 		$string .= "<p>The database '" . $database_item . "' contains no table entries for this user.</p><p>";
@@ -181,7 +181,7 @@ function returnAdvice($username) {
 				$string = "<p>Warning Extreme: No activities for today </p><p>";
 			}
 	    }
-		echo $cal_burned;
+		echo "You burnt " . $cal_burned . " calories today.";
 		echo "<br/>";
 	} else {
 		$string .= "<p>The database '" . $database_activity . "' contains no table entries for this user.</p><p>";
