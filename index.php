@@ -10,11 +10,15 @@
     <link href="css/codiqa.ext.min.css" rel="stylesheet">
     <link href="css/jquery.mobile-1.3.1.min.css" rel="stylesheet">
 	<link href="css/style.css" rel="stylesheet">
+    <link href="css/graph.css" rel="stylesheet">
 	
     <script src="js/jquery-1.9.1.min.js"></script>
     <script src="js/jquery.mobile-1.3.1.min.js"></script>
     <script src="js/codiqa.ext.min.js"></script>
+    <script src="js/d3.min.js"></script>
     <script src="js/script.js"></script>
+    <script src="js/graph.js"></script>
+
     <script>
         (function(){
             document.location.hash = 'index';

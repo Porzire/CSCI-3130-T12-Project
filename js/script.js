@@ -35,11 +35,11 @@ function getAdvice() {
             username: user
         },
         dataType: 'text',
-
         success: function(responce) {
             $('#advice-content').html(responce);
         }
     });
+    draw('#advice-graph', user, 7);
 }
 
 function getHistory() {

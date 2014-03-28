@@ -373,6 +373,45 @@ function getLastRecord($table) {
     echo $display;
 }
 
+function writeData($username, $interval){
+    $outFile = "../tmp/data.tsv";
+
+    // Create entry for useable dates.
+    $data = array();
+    for ($i = 0; $i < $interval; $i++) {
+        $date = date("m/d", strtotime("-$i day"));
+        $data[$date] = array(0, 0);
+    }
+    // Retrieve data from database.
+    $result = getRecord($username, "activity");
+    if (mysql_num_rows($result) > 0) {
+        while ($row = mysql_fetch_row($result)) {
+            $date = date("m/d", strtotime($row[4]));
+            if (array_key_exists($date, $data)) {
+                $data[$date][1] += $row[3];
+            }
+            $string .= "$row[3]\t$date\n";
+        }
+    }
+    $result = getRecord($username, "item");
+    if (mysql_num_rows($result) > 0) {
+        while ($row = mysql_fetch_row($result)) {
+            $date = date("m/d", strtotime($row[4]));
+            if (array_key_exists($date, $data)) {
+                $data[$date][0] += $row[3];
+            }
+            $string .= "$row[3]\t$date\n";
+        }
+    }
+    // Write data to file.
+    $string = "date\tfood\tsport\n";
+    foreach ($data as $date => $val) {
+        $string .= "$date\t$val[0]\t$val[1]\n";
+    }
+    file_put_contents($outFile, $string);
+    chmod($outFile, 0644);
+}
+
 /*
  * Try to remove the last record from the table.
  * This function is used for testing.
@@ -426,6 +465,9 @@ switch ($_POST['func']) {
         break;
     case 'returnAdvice':
         echo returnAdvice($_POST['username']);
+        break;
+    case 'writeData':
+        writeData($_POST['username'], $_POST['interval']);
         break;
 }
 
