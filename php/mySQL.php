@@ -288,7 +288,7 @@ function returnFoodHistory($username){
    $result = getRecord($username, $database);
    $string = '';
    if (mysql_num_rows($result) > 0) {
-       $string .= "<div class=\"CSSTableGenerator\"><table ><tr><td>User</td><td>Item Name</td><td>Calories Consumed</td><td>Date Consumed</td><td>Date Added</td></tr></p><p>";
+       $string .= "<div class=\"CSSTableGenerator\"><table ><tr><td>User</td><td>Item Name</td><td>Calories Gained</td><td>Date Gained</td><td>Date Added</td></tr></p><p>";
        while ($row = mysql_fetch_row($result)) {
            $string .= "<tr><td>{$row[1]}</td><td>{$row[2]}</td><td>{$row[3]}</td><td>{$row[4]}</td><td>{$row[5]}</td></tr></p><p>";
         }
