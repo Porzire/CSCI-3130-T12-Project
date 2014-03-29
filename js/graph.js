@@ -1,6 +1,8 @@
 var simplify = false;
 
 function draw(selector, username, interval) {
+    $(selector).html("");
+
     // Retrive data from database and write to tsv file.
     $.ajax({
         type: 'POST',
@@ -12,6 +14,7 @@ function draw(selector, username, interval) {
             interval: interval
         }
     });
+
     // Set the constants of the graph.
     var WIDTH = $(window).width() > 600 ? 600 : $(window).width();
     var HEIGHT = 400;
@@ -51,6 +54,7 @@ function draw(selector, username, interval) {
         for (var i = 0; i < data.length; i++) {
             max = Math.max(max, data[i].food, data[i].sport);
         }
+        max = 500 * (max / 500 + 1);
         // Set date to x-Axis.
         x.domain(data.map(function(d) { return d.date; }));
         y0.domain([0, max]);

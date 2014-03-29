@@ -34,6 +34,7 @@ function getAdvice() {
             func: 'returnAdvice',
             username: user
         },
+        async: false,
         dataType: 'text',
         success: function(responce) {
             $('#advice-content').html(responce);

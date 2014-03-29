@@ -143,143 +143,102 @@ function returnRecords($username, $table) {
     return $string;
 }
 
+// Return an array
+function getRecentSum($username, $interval) {
+    // Create entry for useable dates.
+    $data = array();
+    for ($i = $interval - 1; $i >= 0; $i--) {
+        $date = date("m/d", strtotime("-$i day"));
+        $data[$date] = array(0, 0);
+    }
+    // Retrieve data from database.
+    $result = getRecord($username, "activity");
+    if (mysql_num_rows($result) > 0) {
+        while ($row = mysql_fetch_row($result)) {
+            $date = date("m/d", strtotime($row[4]));
+            if (array_key_exists($date, $data)) {
+                $data[$date][1] += $row[3];
+            }
+            $string .= "$row[3]\t$date\n";
+        }
+    }
+    $result = getRecord($username, "item");
+    if (mysql_num_rows($result) > 0) {
+        while ($row = mysql_fetch_row($result)) {
+            $date = date("m/d", strtotime($row[4]));
+            if (array_key_exists($date, $data)) {
+                $data[$date][0] += $row[3];
+            }
+            $string .= "$row[3]\t$date\n";
+        }
+    }
+    return $data;
+}
+
+function writeData($username, $interval){
+    $outFile = "../tmp/data.tsv";
+    // Read data from database.
+    $data = getRecentSum($username, $interval);
+    // Write data to file.
+    $string = "date\tfood\tsport\n";
+    foreach ($data as $date => $val) {
+        $string .= "$date\t$val[0]\t$val[1]\n";
+    }
+    file_put_contents($outFile, $string);
+    chmod($outFile, 0644);
+}
+
 function returnAdvice($username) {
+    $result = "";
+    // Add addvice for today.
+    $result .= generateAdvice("For today", $username, 1);
+    // Add addvice for the latest 3 days.
+    $result .= generateAdvice("For the recent three days", $username, 3);
+    // Add addvice for this week.
+    $result .= generateAdvice("For the recent week", $username, 7);
+    return $result;
+}
+
+function generateAdvice($beginning_info, $username, $interval) {
     //The $string is what we return at the end
-    $string = '';
-
-    //get strings for item and activity for the current day
-    $database_item = "item";
-    $resultItem = getRecord($username, $database_item);
-
-    $database_activity = "activity";
-    $resultActivity = getRecord($username, $database_activity);
-
-    //Search for number of calories consumed for this day
-    $cal_consumed = 0;
-	if(mysql_num_rows($resultItem) > 0){
-	    while($row = mysql_fetch_row($resultItem)){
-			if ($row[4] == date('Y-m-d')){
-				$cal_consumed += $row[3];
-			}		
-	    }
-		echo "You consumed " . $cal_consumed . " calories today";
-		echo "<br/>";
-	} else {
-		$string .= "<p>The database '" . $database_item . "' contains no table entries for this user.</p><p>";
-        echo mysql_error();
-	}
-
-	//Search for number of calories burned for this day
-	$cal_burned = 0;
-	if(mysql_num_rows($resultActivity) > 0){
-	    while($row = mysql_fetch_row($resultActivity)){
-			if ($row[4] == date('Y-m-d')){
-	    	$cal_burned += $row[3];
-			}
-	    }
-		echo "You burnt " . $cal_burned . " calories today.";
-		echo "<br/>";
-	} else {
-		$string .= "<p>The database '" . $database_activity . "' contains no table entries for this user.</p><p>";
-        echo mysql_error();
-	}
-
-	//take the total calories and assign to a level 1, 2, 3, 4
-	$cal_consumed_level = 0;
-	if($cal_consumed > 0 & $cal_consumed <= 2499){
-		$cal_consumed_level = -1;
-	}
-	elseif ($cal_consumed >= 2500 & $cal_consumed <= 2699) {
-		$cal_consumed_level = 0;
-	}
-	elseif ($cal_consumed >= 2700 & $cal_consumed <= 2899) {
-		$cal_consumed_level = 1;
-	}
-	elseif($cal_consumed >= 2900 & $cal_consumed <= 3099){
-		$cal_consumed_level = 2;
-	}
-	elseif ($cal_consumed >= 3100) {
-		$cal_consumed_level = 3;
-	}
-	elseif ($cal_consumed == 0){
-		$cal_consumed_level = -2;
-	}
-
-	//Do the same for the cal_burned with their numbers
-	$cal_burned_level = 0;
-	if($cal_burned > 0 & $cal_burned <= 199){
-		$cal_burned_level = 0;
-	}
-	elseif ($cal_burned >= 200 & $cal_burned <= 399) {
-		$cal_burned_level = 1;
-	}
-	elseif ($cal_burned >= 400 & $cal_burned <= 699) {
-		$cal_burned_level = 2;
-	}
-	elseif ($cal_burned >= 700) {
-		$cal_burned_level = 3;
-	}
-	elseif ($cal_burned == 0) {
-		$cal_burned_level = -2;
-	}
-
-	//Do a check if there were null entries detected
-	$has_entries_activity = TRUE;
-	$has_entries_item = TRUE;
-
-	if($cal_burned_level == -2){
-		$has_entries_activity = FALSE;
-	}
-	if($cal_consumed_level == -2){
-		$has_entries_item = FALSE;
-	}
-
-	if(!$has_entries_item){
-		$string .= "<p>You have no entries for your food items. To get accurate results, please enter at least 1 food item.</p><p>";
-	}
-	if(!$has_entries_activity){
-		$string .= "<p>You have no entries for your activities. To get accurate results, please enter at least 1 activity.</p><p>";
-	}
-
-	//Do a comparison to find out the advice with other id conditions. have it export to a $string
-	$total_level = $cal_burned_level - $cal_consumed_level;
-
-	if($has_entries_activity & $has_entries_item){
-		if ($total_level == -3) {
-			$string = "<p>Warning Severe: You are not exercising enough and are facing a large intake number of calories. Severe weight gain can be a side effect at these levels.</p><p>";
-		}
-		elseif ($total_level == -2) {
-			$string = "<p>Warning Moderate: You are not exercising and facing more than average intake number of calories. Moderate weight gain can be a possible side effect at this level.</p><p>";
-		}
-		elseif ($total_level == -1) {
-			$string = "<p>Warning Mild: You are consuming slightly more calories than average. Mild weight gain can be a side effect at this level.</p><p>";
-		}
-		elseif ($total_level == 0) {
-			$string = "<p>Warning None: You are doing everything perfectly, keep this progress!</p><p>";
-		}
-		elseif ($total_level == 1) {
-			$string = "<p>Warning Mild: You are doing more sports, try to eat a little more to keep a  good balance.</p><p>";
-		}
-		elseif ($total_level == 2) {
-			$string = "<p>Warning Moderate: You are doing more sports than average. To keep a healthy balance it is recommended you consume more calories.</p><p>";
-		}
-		elseif ($total_level == 3) {
-			$string = "<p>Warning Severe: You are doing much more sports activities, eat more to keep up with your current vigorous activity standards.</p><p>";
-		}
-		elseif ($total_level == 4) {
-			$string = "<p>Warning Extreme: You are not eating enough calories based on your current results, you need to consume more calories. Physical distress can be an effect at these levels.</p><p>";
-		}
-		//Do a check to see if there is a major surplus in calories after heavy workout and if there is a major decrease in calories after eating a lot
-		//Major cal's
-		elseif($cal_consumed_level == 3 & $cal_burned_level == 3 & ($cal_consumed_level - $cal_burned_level) > 2699){
-			$string = "<p>Warning Moderate: You are at risk of gaining weight even this this excessive exercise. Try eating less to maintain a balance</p><p>";
-		}
-		//Major Sport
-		elseif($cal_consumed_level == 3 & $cal_burned_level == 3 & ($cal_burned_level - $cal_consumed_level) > 700){
-			$string = "<p>Warning Moderate: You are doing more sports than needed even though you are eating more. Try cutting back on the sports to stay within safe limits</p><p>";
-		}
-	}
-	
+    $string = "<p>" . $beginning_info . ", ";
+    // Read data from database.
+    $data = getRecentSum($username, $interval);
+    $miss = false;
+    $total = array(0, 0);
+    $count = array(0, 0);
+    foreach ($data as $date => $val) {
+        for ($i = 0; $i <= 1; $i++) {
+            if ($val[$i] == 0) {
+                $miss = true;
+            } else {
+                $total[$i] += $val[$i];
+                $count[$i] += 1;
+            }
+        }
+    }
+    $sum = $total[0]/$count[0] - $total[1]/$count[1];
+    //$string .= " (" . $sum . "=" . $total[0] . "/" . $count[0] . "-" . $total[1] . "/" . $count[1] . ") ";
+    // Give advice.
+    if ($miss) {
+        $string .= "you did not update all your calorie records. According to the records in your account, ";
+    }
+    if ($sum < 1800) {
+        $string .= "you are doing much more sports activities, eat more to keep up with your current vigorous activity standards.";
+    } elseif ($sum < 2200) {
+        $string .= "you are doing more sports than average. To keep a healthy balance it is recommended you consume more calories.";
+    } elseif ($sum < 2400) {
+        $string .= "you are doing more sports, try to eat a little more to keep a good balance.";
+    } elseif ($sum < 2600) {
+        $string .= "you are doing everything perfectly, keep this progress!";
+    } elseif ($sum < 2800) {
+        $string .= "you are consuming slightly more calories than average. Mild weight gain can be a side effect at this level.";
+    } elseif ($sum < 3200) {
+        $string .= "you are not exercising and facing more than average intake number of calories. Moderate weight gain can be a possible side effect at this level.";
+    } else {
+        $string .= "you are not exercising enough and are facing a large intake number of calories. Severe weight gain can be a side effect at these levels.";
+    }
+    $string .= "</p>";
 	return $string;
 }
 	
@@ -371,45 +330,6 @@ function getLastRecord($table) {
         $display .= $val . ' ';
     }
     echo $display;
-}
-
-function writeData($username, $interval){
-    $outFile = "../tmp/data.tsv";
-
-    // Create entry for useable dates.
-    $data = array();
-    for ($i = 0; $i < $interval; $i++) {
-        $date = date("m/d", strtotime("-$i day"));
-        $data[$date] = array(0, 0);
-    }
-    // Retrieve data from database.
-    $result = getRecord($username, "activity");
-    if (mysql_num_rows($result) > 0) {
-        while ($row = mysql_fetch_row($result)) {
-            $date = date("m/d", strtotime($row[4]));
-            if (array_key_exists($date, $data)) {
-                $data[$date][1] += $row[3];
-            }
-            $string .= "$row[3]\t$date\n";
-        }
-    }
-    $result = getRecord($username, "item");
-    if (mysql_num_rows($result) > 0) {
-        while ($row = mysql_fetch_row($result)) {
-            $date = date("m/d", strtotime($row[4]));
-            if (array_key_exists($date, $data)) {
-                $data[$date][0] += $row[3];
-            }
-            $string .= "$row[3]\t$date\n";
-        }
-    }
-    // Write data to file.
-    $string = "date\tfood\tsport\n";
-    foreach ($data as $date => $val) {
-        $string .= "$date\t$val[0]\t$val[1]\n";
-    }
-    file_put_contents($outFile, $string);
-    chmod($outFile, 0644);
 }
 
 /*
