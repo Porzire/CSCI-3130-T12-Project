@@ -1,5 +1,12 @@
 var simplify = false;
 
+/**
+ * draw the graph and append to the given selector.
+ * @method draw
+ * @param {String} selector The selector.
+ * @param {String} username The username.
+ * @param {String} interval The interval of data to draw.
+ */
 function draw(selector, username, interval) {
     $(selector).html("");
 
@@ -47,7 +54,12 @@ function draw(selector, username, interval) {
                 .attr("class", "graph")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    // Get and process the data file.
+    /**
+     * Get and process the data file.
+     * @method draw
+     * @param {String} error The error information.
+     * @param {Object} data The data in the tsv file.
+     */
     d3.tsv("tmp/data.tsv", type, function(error, data) {
         // Search the maximum value in the data.
         var max = 0;
@@ -106,7 +118,12 @@ function draw(selector, username, interval) {
             .attr("height", function(d,i,j) { return height - y1(d.sport); }); 
     });
 
-    // Accessor of the data row.
+    /**
+     * Accessor of the data row.
+     * @method type
+     * @param {String} d A row of information in the given file.
+     * @return A modified row of information.
+     */
     function type(d) {
         if (simplify) {
             d.date = d.date.split('/')[1]; 

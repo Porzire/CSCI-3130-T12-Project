@@ -143,7 +143,14 @@ function returnRecords($username, $table) {
     return $string;
 }
 
-// Return an array
+/*
+ * Return an array contains the recent calorie of food/sport.
+ *
+ * @param String $username The user name.
+ * @param int    $interval The number of days required..
+ *
+ * @return String An array contains the recent calorie of food/sport.
+ */
 function getRecentSum($username, $interval) {
     // Create entry for useable dates.
     $data = array();
@@ -175,6 +182,12 @@ function getRecentSum($username, $interval) {
     return $data;
 }
 
+/**
+ * Write a tsv file containing recent calorie of food/sport.
+ *
+ * @param String $username The user name.
+ * @param int    $interval The number of days required..
+ */
 function writeData($username, $interval){
     $outFile = "../tmp/data.tsv";
     // Read data from database.
@@ -218,7 +231,8 @@ function generateAdvice($beginning_info, $username, $interval) {
         }
     }
     $sum = $total[0]/$count[0] - $total[1]/$count[1];
-    //$string .= " (" . $sum . "=" . $total[0] . "/" . $count[0] . "-" . $total[1] . "/" . $count[1] . ") ";
+    // Add information for debuging.
+    // $string .= " (" . $sum . "=" . $total[0] . "/" . $count[0] . "-" . $total[1] . "/" . $count[1] . ") ";
     // Give advice.
     if ($miss) {
         $string .= "you did not update all your calorie records. According to the records in your account, ";
@@ -242,33 +256,80 @@ function generateAdvice($beginning_info, $username, $interval) {
 	return $string;
 }
 	
+/**
+ * Return the history of all entries in the added food section.
+ *
+ * @param String $username The user name.
+ *
+ * @return String An HTML table contains the history of all entries in the added
+ *                food section. If there are no entries, it will return a
+ *                message and that the table querey is correct.
+ */
 function returnFoodHistory($username){
-   $database = "item";
-   $result = getRecord($username, $database);
-   $string = '';
-   if (mysql_num_rows($result) > 0) {
-       $string .= "<div class=\"CSSTableGenerator\"><table ><tr><td>User</td><td>Item Name</td><td>Calories Gained</td><td>Date Gained</td><td>Date Added</td></tr></p><p>";
-       while ($row = mysql_fetch_row($result)) {
-           $string .= "<tr><td>{$row[1]}</td><td>{$row[2]}</td><td>{$row[3]}</td><td>{$row[4]}</td><td>{$row[5]}</td></tr></p><p>";
-        }
-       $string .= "</table></p><p>";
-    } else {
-       $string .= "<p>The database '" . $database . "' contains no table entries for this user.</p><p>";
-       echo mysql_error();
-    }
-    return $string;
+    // REFACTOR: Combine the duplicate code.
+    return returnHistory($username, "item", "gaind");
+    // $database = "item";
+    // $result = getRecord($username, $database);
+    // $string = '';
+    // if (mysql_num_rows($result) > 0) {
+    //     $string .= "<div class=\"CSSTableGenerator\"><table ><tr><td>User</td><td>Item Name</td><td>Calories Gained</td><td>Date Gained</td><td>Date Added</td></tr></p><p>";
+    //     while ($row = mysql_fetch_row($result)) {
+    //         $string .= "<tr><td>{$row[1]}</td><td>{$row[2]}</td><td>{$row[3]}</td><td>{$row[4]}</td><td>{$row[5]}</td></tr></p><p>";
+    //      }
+    //     $string .= "</table></p><p>";
+    // } else {
+    //    $string .= "<p>The database '" . $database . "' contains no table entries for this user.</p><p>";
+    //    echo mysql_error();
+    // }
+    // return $string;
 }
 
 /**
- * Try to return the history of all entries in the added sport section.
- * NOTE FOR LATER: be sure that if there are no entries, it will return a message and that the table querey is correct
+ * Return the history of all entries in the added sport section.
+ *
+ * @param String $username The user name.
+ *
+ * @return String An HTML table contains the history of all entries in the added
+ *                sport section. If there are no entries, it will return a
+ *                message and that the table querey is correct.
  */
 function returnSportHistory($username){
-    $database = "activity";
-    $result = getRecord($username, $database);
+    // REFACTOR: Combine the duplicate code.
+    return returnHistory($username, "activity", "burnd");
+    // $database = "activity";
+    // $result = getRecord($username, $database);
+    // $string = '';
+    // if (mysql_num_rows($result) > 0) {
+    //     $string .= "<div class=\"CSSTableGenerator\"><table ><tr><td>User</td><td>Activity Name</td><td>Calories Burned</td><td>Date Burned</td><td>Date Added</td></tr></p><p>";
+    //     while ($row = mysql_fetch_row($result)) {
+    //         $string .= "<tr><td>{$row[1]}</td><td>{$row[2]}</td><td>{$row[3]}</td><td>{$row[4]}</td><td>{$row[5]}</td></tr></p><p>";
+    //     }
+    //     $string .= "</table></p><p>";
+    // } else {
+    //     $string .= "<p>The database '" . $database . "' contains no table entries for this user.</p><p>";
+    //     echo mysql_error();
+    // }
+    // return $string;
+}
+
+/**
+ * Return the history of all entries of the user.
+ *
+ * @param String $username  The user name.
+ * @param String $tablename The table name.
+ * @param String $action    The usage the data is for.
+ *
+ * @return String An HTML table contains the history of all entries in the added
+ *                sport section. If there are no entries, it will return a
+ *                message and that the table querey is correct.
+ */
+function returnHistory($username, $tablename, $action) {
+    $result = getRecord($username, $tablename);
     $string = '';
+    $type = ucwords($tablename);
+    $action = ucwords($action);
     if (mysql_num_rows($result) > 0) {
-        $string .= "<div class=\"CSSTableGenerator\"><table ><tr><td>User</td><td>Activity Name</td><td>Calories Burned</td><td>Date Burned</td><td>Date Added</td></tr></p><p>";
+        $string .= "<div class=\"CSSTableGenerator\"><table ><tr><td>User</td><td>$type Name</td><td>Calories $action</td><td>Date $action</td><td>Date Added</td></tr></p><p>";
         while ($row = mysql_fetch_row($result)) {
             $string .= "<tr><td>{$row[1]}</td><td>{$row[2]}</td><td>{$row[3]}</td><td>{$row[4]}</td><td>{$row[5]}</td></tr></p><p>";
         }
