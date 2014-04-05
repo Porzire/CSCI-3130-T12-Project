@@ -36,3 +36,12 @@ known issues
 
 - Certain mobile browsers have problems with the "Add" page. In our experience, Chrome
   may not recognize that Food/Sport has been selected and Firefox sometimes requires multiple clicks of the desired button in order to register.
+  [Works as expected when accessing from a computer]
+
+- On certain phones with different resolutions, the chart on the "History" page will not
+  line up with your mobile browser. 
+  [Works as expected when accessing from a computer]
+
+- On mobile devices, logging out and logging in without refreshing the browser will     
+  display the previous user's information. 
+  [Works as expected when accessing from a computer]
