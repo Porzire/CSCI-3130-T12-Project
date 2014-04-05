@@ -25,6 +25,12 @@ installation instructions
 - Depending on what your personal settings are for password and database host location,
   these will need to be edited in the file /php/MySQL.php. The parameters that you may need to change are $dbusername, $dbpass, $dbhost.
 
+usage instructions
+------------------
+
+- For detailed instructions on how to use Geofit, please refer to included 
+  usage_instructions.pdf file.
+
 known issues
 ------------
 
