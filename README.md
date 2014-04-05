@@ -16,10 +16,10 @@ installation instructions
 
 - Copy the contents of source_files into your active directory.
 
-- Run the geofit_database.sql script to install the database table structure.
+- Run the 'geofit_database.sql' script to install the database table structure.
 
 - (Optional) To install with MySQL Workbench, go to File -> Open SQL Script.
-  Navigate to geofit_database.sql and execute on your server space.
+  Navigate to 'geofit_database.sql' and execute on your server space.
   The instructions should be similar for any SQL database editor.
 
 - Depending on what your personal settings are for password and database host location,
