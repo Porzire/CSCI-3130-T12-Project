@@ -14,25 +14,24 @@ members
 installation instructions
 -------------------------
 
-- Copy the contents of source_files into your active directory.
-  ```
+- Copy the contents of source_files into your active directory:
+  
   git clone git@github.com:Porzire/CSCI-3130-T12-Project.git
-  ```
 
-- Run the ```geofit_database.sql``` script to install the database table structure.
+- Run the "geofit_database.sql" script to install the database table structure.
 
-- (Optional) To install with MySQL Workbench, go to ```File -> Open SQL Script```.
-  Navigate to ```geofit_database.sql``` and execute on your server space.
+- (Optional) To install with MySQL Workbench, go to File -> Open SQL Script.
+  Navigate to "geofit_database.sql" and execute on your server space.
   The instructions should be similar for any SQL database editor.
 
 - Depending on what your personal settings are for password and database host location,
-  these will need to be edited in the file ```/php/MySQL.php```. The parameters that you may need to change are ```$dbusername```, ```$dbpass```, ```$dbhost```.
+  these will need to be edited in the file "/php/MySQL.php". The parameters that you may need to change are "$dbusername", "$dbpass", "$dbhost".
 
 usage instructions
 ------------------
 
 - For detailed instructions on how to use Geofit, please refer to included 
-  Manual.pdf file.
+  "Manual.pdf" file.
 
 known issues
 ------------
